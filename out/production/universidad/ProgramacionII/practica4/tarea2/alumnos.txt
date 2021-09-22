@@ -1,0 +1,1 @@
+No se escribiria nada por pantalla ya que el arraylist devuelvo por el metodo cargarArray() estaria sin elemento
