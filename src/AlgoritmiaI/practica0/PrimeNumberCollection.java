@@ -1,4 +1,4 @@
-package AlgoritmiaI.primeNumbers;
+package AlgoritmiaI.practica0;
 
 public final class PrimeNumberCollection {
     public final int[] primeNumbers;

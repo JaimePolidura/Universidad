@@ -1,6 +1,5 @@
-package AlgoritmiaI.primeNumbers;
+package AlgoritmiaI.practica0;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
