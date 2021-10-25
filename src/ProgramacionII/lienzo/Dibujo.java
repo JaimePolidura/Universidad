@@ -1,7 +1,5 @@
 package ProgramacionII.lienzo;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QPDecoderStream;
-
 import java.awt.*;
 import java.awt.List;
 import java.awt.event.*;
