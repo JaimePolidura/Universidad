@@ -16,21 +16,22 @@ public final class AddressBook {
     public MyLinkedList<String> getContactNames () {
         MyLinkedList<String> contactNames = new MyLinkedList<>();
 
-        contacts.forEach(contact -> contactNames.insert(formatContactName(contact)));
+        for (Contact contact : contacts) {
+            contactNames.insert(contact.getLastName() + ", " + contact.getFirstName());
+        }
 
+        //contacts.forEach(contact -> contactNames.insert(formatContactName(contact)));
         return contactNames;
     }
 
     public Contact getContact(String contactName){
-        Contact contactFound = null;
-
         for (Contact actualContact : contacts) {
             if(formatContactName(actualContact).equalsIgnoreCase(contactName)){
-                contactFound = actualContact;
+                return actualContact;
             }
         }
 
-        return contactFound;
+        return null;
     }
 
     private String formatContactName (Contact contact) {
@@ -38,16 +39,28 @@ public final class AddressBook {
     }
 
     public String exportToCsv(){
-        StringBuilder csvStringBuilder = new StringBuilder();
+        String csv = "";
 
-        for (Contact actualContact : contacts) {
-            csvStringBuilder.append(actualContact.getFirstName()).append(",")
-                    .append(actualContact.getLastName()).append(",")
-                    .append(actualContact.getCompany()).append(",")
-                    .append(actualContact.getAddress()).append(",")
-                    .append(actualContact.getEmail()).append("\n");
+        for (Contact contact : contacts) {
+            csv = csv + contact.getFirstName() + ","
+                    + contact.getLastName() + ","
+                    + contact.getCompany() + ","
+                    + contact.getAddress() + ","
+                    + contact.getEmail() + "\n";
         }
 
-        return csvStringBuilder.toString();
+        return csv;
+
+//        StringBuilder csvStringBuilder = new StringBuilder();
+//
+//        for (Contact actualContact : contacts) {
+//            csvStringBuilder.append(actualContact.getFirstName()).append(",")
+//                    .append(actualContact.getLastName()).append(",")
+//                    .append(actualContact.getCompany()).append(",")
+//                    .append(actualContact.getAddress()).append(",")
+//                    .append(actualContact.getEmail()).append("\n");
+//        }
+//
+//        return csvStringBuilder.toString();
     }
 }

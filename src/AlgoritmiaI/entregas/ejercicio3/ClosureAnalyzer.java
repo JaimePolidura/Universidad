@@ -2,10 +2,7 @@ package AlgoritmiaI.entregas.ejercicio3;
 
 import AlgoritmiaI.datastructures.stack.MyStack;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class ClosureAnalyzer {
     private static final Map<Character, Character> closeToOpen;
@@ -44,30 +41,32 @@ public final class ClosureAnalyzer {
                 openTokenIndex.push(i);
             }else{
                 if(openTokens.isEmpty()){
-                    return new SyntaxError(buildContextWhenNoEmpty(openTokenIndex, stringToCheck, i), i);
+                    MyStack<String> contextStack = buildContextStack(openTokenIndex, stringToCheck, i);
+
+                    return new SyntaxError(contextStack, i);
                 }
 
                 char supossedOpenToken = openTokens.pop().getOpenToken();
 
                 if(missMatchOpenCloseTokens(supossedOpenToken, actualChar)){
-                    return new SyntaxError(buildContextWhenNoEmpty(openTokenIndex, stringToCheck, i), i);
+                    return new SyntaxError(buildContextStack(openTokenIndex, stringToCheck, i), i);
                 }
             }
         }
 
         return !openTokens.isEmpty() ?
-                new SyntaxError(buildContextWhenEmpty(stringToCheck), openTokens.top().getIndex()):
+                new SyntaxError(buildContextStackWholeText(stringToCheck), openTokens.top().getIndex()):
                 null;
     }
 
-    private static MyStack<String> buildContextWhenEmpty(String text) {
+    private static MyStack<String> buildContextStackWholeText(String text) {
         MyStack<String> contextStack = new MyStack<>();
         contextStack.push(text);
 
         return  contextStack;
     }
 
-    private static MyStack<String> buildContextWhenNoEmpty(MyStack<Integer> indexes, String text, int error) {
+    private static MyStack<String> buildContextStack(MyStack<Integer> indexes, String text, int error) {
         MyStack<String> contextStack = new MyStack<>();
 
         Object[] indexesObjectArray = indexes.listData();
@@ -75,7 +74,7 @@ public final class ClosureAnalyzer {
         contextStack.push(text.substring(0, error + 1));
 
         for (int i = indexesObjectArray.length - 1; i >= 0 ; i--) {
-            Integer indexesInteger = (Integer) indexesObjectArray[i];
+            int indexesInteger = (int) indexesObjectArray[i];
 
             contextStack.push(text.substring(indexesInteger, error + 1));
         }

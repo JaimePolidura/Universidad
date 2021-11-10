@@ -54,6 +54,7 @@ public final class ClosureAnalyzerTest {
         String expression = "1 + (N * (1+array[0 / 2) * ((N-1)*array[1]/ 3)";
         SyntaxError error = ClosureAnalyzer.getFirstError((expression));
         MyStack<String> contextStack = error.getContextStack();
+
         assertEquals("[0 / 2)", contextStack.pop());
         assertEquals("(1+array[0 / 2)", contextStack.pop());
         assertEquals("(N * (1+array[0 / 2)", contextStack.pop());

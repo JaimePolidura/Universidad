@@ -9,15 +9,6 @@ public final class Person {
     private Calendar birthday;
     private String country;
 
-    public Person(String name, String lastName, Calendar birthday, String country) {
-        this.name = name;
-        this.lastName = lastName;
-        this.birthday = birthday;
-        this.country = country;
-    }
-
-    public Person() {}
-
     public String getName() {
         return name;
     }

@@ -1,5 +1,6 @@
 package AlgoritmiaI.entregas.ejercicio2;
 
+
 public final class Contact {
     private String firstName;
     private String lastName;

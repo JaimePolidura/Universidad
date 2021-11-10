@@ -12,12 +12,12 @@ public final class Matrix {
         copyMatrix(array);
     }
 
-    private void copyMatrix(int[][] arrayToCopy) {
-        this.array = new int[arrayToCopy.length][arrayToCopy[0].length];
+    private void copyMatrix(int[][] array) {
+        this.array = new int[array.length][array[0].length];
 
-        for (int i = 0; i < arrayToCopy.length; i++) {
-            for(int j = 0; j < arrayToCopy[i].length; j++){
-                array[i][j] = arrayToCopy[i][j];
+        for (int i = 0; i < array.length; i++) {
+            for(int j = 0; j < array[i].length; j++){
+                this.array[i][j] = array[i][j];
             }
         }
     }
@@ -42,9 +42,7 @@ public final class Matrix {
 
         for(int i = 0; i < array.length; i++){
             for(int j = 0; j < array[i].length; j++){
-                int sum = array[i][j] + matrixToSum.array[i][j];
-
-                newMatrix.array[i][j] = sum;
+                newMatrix.array[i][j] = array[i][j] + matrixToSum.array[i][j];
             }
         }
 
@@ -75,12 +73,11 @@ public final class Matrix {
     }
 
     private void checkIfCanBeMultiplied(Matrix toMultiply) throws MatrixException {
-        boolean canBeMultiplied = this.array.length != toMultiply.array[0].length
+        boolean cannotBeMultiplied = this.array.length != toMultiply.array[0].length
                 || this.array[0].length != toMultiply.array.length;
 
-        if(canBeMultiplied){
-            throw new MatrixException( "Cannot multiply matrices if number of columns in left matrix " +
-                    "is not equal to number of rows in right matrix");
+        if(cannotBeMultiplied){
+            throw new MatrixException( "Cannot multiply matrices if number of columns in left matrix is not equal to number of rows in right matrix");
         }
     }
 
