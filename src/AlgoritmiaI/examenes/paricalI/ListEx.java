@@ -1,8 +1,8 @@
 package AlgoritmiaI.examenes.paricalI;
 
-import edai.collections.List;
-import edai.collections.Node;
-import edai.collections.utils.NodeUtils;
+import AlgoritmiaI.datastructures.binarytree.List;
+import AlgoritmiaI.datastructures.binarytree.Node;
+import AlgoritmiaI.datastructures.binarytree.NodeUtils;
 
 public final class ListEx<T> extends List<T> {
     public void move(int sourceIndex, int targetIndex) {

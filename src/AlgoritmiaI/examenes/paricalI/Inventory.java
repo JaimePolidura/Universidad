@@ -1,7 +1,7 @@
 package AlgoritmiaI.examenes.paricalI;
 
-import edai.collections.List;
-import edai.collections.Node;
+import AlgoritmiaI.datastructures.binarytree.List;
+import AlgoritmiaI.datastructures.binarytree.Node;
 
 public final class Inventory {
     private final List<Product> editingProducts;

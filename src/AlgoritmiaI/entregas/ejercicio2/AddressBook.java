@@ -50,17 +50,5 @@ public final class AddressBook {
         }
 
         return csv;
-
-//        StringBuilder csvStringBuilder = new StringBuilder();
-//
-//        for (Contact actualContact : contacts) {
-//            csvStringBuilder.append(actualContact.getFirstName()).append(",")
-//                    .append(actualContact.getLastName()).append(",")
-//                    .append(actualContact.getCompany()).append(",")
-//                    .append(actualContact.getAddress()).append(",")
-//                    .append(actualContact.getEmail()).append("\n");
-//        }
-//
-//        return csvStringBuilder.toString();
     }
 }
