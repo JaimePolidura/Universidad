@@ -6,8 +6,7 @@ import java.util.TreeSet;
 
 public class CollectionFactory<T extends Comparable<T>> {
     public Collection<T> createAscSortedCollection() {
-        //return new TreeSet<>();
-        return new SortedLinkedList<>(comparator);
+        return new TreeSet<>();
     }
 
     public Collection<T> createDescSortedCollection() {
