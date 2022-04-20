@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 public final class RecursiveFuncsTest {
     @Test
@@ -54,15 +55,15 @@ public final class RecursiveFuncsTest {
         final TestRequestable requestable =
                 new TestRequestable("https://www.google.com", "OK", 6);
         final String response = RecursiveFuncs.request(requestable, 5);
-        assertEquals(null, response);
+        assertNull(response);
         assertEquals(5, requestable.getNumAttempts());
     }
 }
 
 class TestRequestable implements Requestable {
-    private String url;
-    private String content;
-    private int numFails;
+    private final String url;
+    private final String content;
+    private final int numFails;
     private int numAttempts;
 
     public TestRequestable(String url, String content, int numFails) {
