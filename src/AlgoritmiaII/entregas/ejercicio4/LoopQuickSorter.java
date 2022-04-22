@@ -11,13 +11,13 @@ public final class LoopQuickSorter<T extends Comparable<T>> implements ListSorte
     private void sort(List<T> list, int first, int last) {
         Stack<Range> ranges = new Stack<>();
 
-        list = toArrayList(list);
+        List<T> listToUse = toArrayList(list);
 
         ranges.push(new Range(first, last));
 
         while (!ranges.isEmpty()){
             Range range = ranges.pop();
-            int pivot = partition(list, range.first, range.last);
+            int pivot = partition(listToUse, range.first, range.last);
 
             if (pivot - 1 > range.first)
                 ranges.push(new Range(range.first, pivot - 1));
@@ -25,14 +25,15 @@ public final class LoopQuickSorter<T extends Comparable<T>> implements ListSorte
             if (pivot + 1 < range.last)
                 ranges.push(new Range(pivot + 1, range.last));
         }
+
+        list.clear();
+        list.addAll(listToUse);
     }
 
     private List<T> toArrayList(List<T> list) {
-        return List.of();
+        return new ArrayList<>(list);
     }
 
-    // Particionado de Lamuto.
-    // https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme
     private int partition(List<T> list, int first, int last) {
         final T pivotValue = list.get(last);
 

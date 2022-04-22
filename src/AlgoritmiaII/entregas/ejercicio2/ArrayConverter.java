@@ -20,8 +20,6 @@ public class ArrayConverter<T extends Comparable<T>> {
     }
 
     public Set<T> toSet(T[] arr, boolean sorted) {
-        Sets.newHashSet()
-
         return sorted ? new TreeSet<>(Arrays.asList(arr)) : Sets.newHashSet(arr);
     }
 

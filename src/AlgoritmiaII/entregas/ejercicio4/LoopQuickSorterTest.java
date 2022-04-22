@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoopQuickSorterTest {
-    final Integer[] expected = {1, 2, 3, 4, 5};
-    final List<Integer> unsortedValues = List.of(new Integer[]{5, 4, 1, 2, 3});
+    final Integer[] expected = {1, 2, 3, 4, 5, 10, 11};
+    final List<Integer> unsortedValues = List.of(new Integer[]{10, 5, 4, 1, 11, 2, 3});
 
     @Test
     public void shouldSortArrayList() {
@@ -22,12 +22,13 @@ public class LoopQuickSorterTest {
     public void shouldSortLinkedList() {
         List<Integer> list = new LinkedList<>(unsortedValues);
         new LoopQuickSorter<Integer>().sort(list);
+
         assertArrayEquals(expected, list.toArray());
     }
 
     @Test
     public void testSameOrderComplexity() {
-        List<Integer> sourceList = getRandomValues(1024);
+        List<Integer> sourceList = getRandomValues(10024);
         LoopQuickSorter<Integer> loopQuickSorter = new LoopQuickSorter<>();
 
         ArrayList<Integer> arrayList = new ArrayList<>(sourceList);
