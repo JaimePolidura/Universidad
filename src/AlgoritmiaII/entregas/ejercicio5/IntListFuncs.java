@@ -12,16 +12,16 @@ public final class IntListFuncs {
                 .toList();
     }
 
-    public static void main(String[] args) {
-        splitEach(List.of(1,2,3,4,5),2);
+    public static List<List<Integer>> splitEach(List<Integer> input, int itemsPerList) {
+        int numberOfPartitions = input.size() / itemsPerList + (input.size() % itemsPerList == 0 ? 0 : 1);
+
+        return Stream.iterate(0, i -> i < numberOfPartitions, i -> i + 1)
+                .map(i -> sublist(input, i * itemsPerList, itemsPerList + itemsPerList * i))
+                .collect(Collectors.toList());
     }
 
-    public static List<List<Integer>> splitEach(List<Integer> input, int total) {
-        int itemsPerList = input.size() / total;
-
-        return Stream.iterate(0, i -> i < itemsPerList, i -> i + 1)
-                .map(i -> input.subList(i * itemsPerList, i + itemsPerList * i))
-                .collect(Collectors.toList());
+    private static <T> List<T> sublist(List<T> input, int from, int to) {
+        return input.size() < to ? input.subList(from, to - 1) : input.subList(from, to);
     }
 
     public static int parityBitSum(List<Integer> input) {
