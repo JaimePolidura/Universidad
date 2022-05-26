@@ -25,10 +25,16 @@ public final class IntListFuncs {
     }
 
     public static int parityBitSum(List<Integer> input) {
+        List<Integer> masks = Stream.iterate(0, n -> n < 32, n -> n + 1)
+                .map(n -> 0b0001 << n)
+                .toList();
+
+        masks.stream().forEach(n-> System.out.println(Integer.toBinaryString(n)));
+
         return input.stream()
-                .map(String::valueOf)
-                .mapToInt(s -> countCharInString(s,'1'))
-                .sum();
+                .filter(num -> masks.stream().anyMatch(mask -> (mask & num) > 0))
+                .toList()
+                .size();
     }
 
     private static int countCharInString(String string, char character){

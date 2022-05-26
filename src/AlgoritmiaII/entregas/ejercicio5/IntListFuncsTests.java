@@ -93,11 +93,11 @@ public final class IntListFuncsTests {
     @Test
     public void testParityBitSumOfItems() {
         final List<Integer> input = List.of(
-                1100,
-                11,
-                110,
-                1001,
-                1111
+                0b1100,
+                0b0011,
+                0b0110,
+                0b1001,
+                0b1111
         );
 
         final int expected = 2 + 2 + 2 + 2 + 4;
