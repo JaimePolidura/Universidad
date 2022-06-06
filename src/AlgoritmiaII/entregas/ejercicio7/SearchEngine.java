@@ -1,9 +1,6 @@
 package AlgoritmiaII.entregas.ejercicio7;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class SearchEngine {
     private final Map<String, Document> documentMap;
@@ -21,18 +18,18 @@ public final class SearchEngine {
     }
 
     public List<String> search(List<String> terms) {
-        List<SearchIDFCalculation> searchIDFCalculations = new ArrayList<>();
+        List<SearchTFIDFCalculation> searchIDFCalculations = new ArrayList<>();
 
-        for(var entry : this.documentMap.entrySet()){
-            searchIDFCalculations.add(new SearchIDFCalculation(
+        for (var entry : this.documentMap.entrySet()) {
+            searchIDFCalculations.add(new SearchTFIDFCalculation(
                     entry.getKey(),
-                    calculateIDFInDocumentByTerms(entry.getKey(), terms)
+                    getTermIdf(entry.getValue(), terms) * terms.stream().map(term -> entry.getValue().getTf(term)).mapToDouble(i -> i).sum()
             ));
         }
 
         return searchIDFCalculations.stream()
-                .sorted(((o1, o2) -> (int) (o1.idf-o2.idf)))
-                .map(SearchIDFCalculation::url)
+                .sorted((o1, o2) -> Double.compare(o2.tfidf, o1.tfidf))
+                .map(SearchTFIDFCalculation::url)
                 .toList();
     }
 
@@ -42,12 +39,46 @@ public final class SearchEngine {
                 .sum();
     }
 
-    record SearchIDFCalculation(String url, double idf){}
+    record SearchTFIDFCalculation(String url, double tfidf){}
+
+    public double getTermIdf(Document document, List<String> terms){
+        return terms.stream()
+                .mapToDouble(term -> Math.log((double) documentMap.size() / (numberOfOcurrencesInTerms(term, document))) + 1)
+                .sum();
+    }
 
     public double getTermIdf(String term) {
         return documentMap.keySet().stream()
                 .map(documentMap::get)
-                .mapToDouble(document -> Math.log((double) documentMap.size() /(double) document.getTf(term)) + 1)
-                .sum();
+                .mapToDouble(document -> Math.log((double) documentMap.size() / (numberOfOcurrencesInTerms(term))) + 1)
+                .max()
+                .getAsDouble();
+    }
+
+    private double numberOfOcurrencesInTerms(String term, Document document){
+        double count = 0;
+        List<String> terms = document.getTerms();
+
+        count = numberOfOcurrencesInDoc(term, terms) > 0 ? count + 1 : count;
+
+        return count;
+    }
+
+    private double numberOfOcurrencesInTerms(String term){
+        double count = 0;
+
+        for(Document document : this.documentMap.values()){
+            List<String> terms = document.getTerms();
+
+            count = numberOfOcurrencesInDoc(term, terms) > 0 ? count + 1 : count;
+        }
+
+        return count;
+    }
+
+    private double numberOfOcurrencesInDoc(String term, List<String> terms) {
+        return terms.stream()
+                .filter(term::equalsIgnoreCase)
+                .count();
     }
 }
