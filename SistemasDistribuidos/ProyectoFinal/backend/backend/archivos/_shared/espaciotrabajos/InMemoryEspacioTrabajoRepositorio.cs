@@ -1,4 +1,4 @@
-﻿using backend.archiv;
+﻿using backend.archivos;
 
 namespace backend.archivos {
     public class InMemoryEspacioTrabajoRepositorio : EspacioTrabajoRepositorio {
@@ -14,7 +14,7 @@ namespace backend.archivos {
         }
 
         public EspacioTrabajo findById(Guid espacioTrabajoId) {
-            return this.espacioTrabajos.Where(it => it.espacioTrabajoId.Equals(espacioTrabajoId)).First();
+            return this.espacioTrabajos.Where(it => it.espacioTrabajoId.Equals(espacioTrabajoId)).FirstOrDefault();
         }
     }
 }

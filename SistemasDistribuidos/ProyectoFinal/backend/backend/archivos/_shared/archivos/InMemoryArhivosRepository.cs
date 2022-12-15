@@ -10,10 +10,10 @@ namespace backend.archivos
 
             if (index != -1)
                 this.archivos.RemoveAt(index);
-
+               
             this.archivos.Add(archivo);
         }
-
+          
         public Archivo findById(Guid archivoId, Guid espacioTrabajoId) {
             return this.archivos.Where(archivo => archivo.archivoId.Equals(archivoId) && 
                         archivo.espacioTrabajoId.Equals(espacioTrabajoId)).First();

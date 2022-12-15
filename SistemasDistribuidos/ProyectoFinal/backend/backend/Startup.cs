@@ -17,8 +17,6 @@ namespace backend {
 
             var espacioTrabajoRepositorio = this.serviceProvider.GetService<EspacioTrabajoRepositorio>();
             espacioTrabajoRepositorio.save(new EspacioTrabajo(Guid.NewGuid(), USUARIO_ID_DEFAULT, "Por defecto", DateTime.Now, false, null));
-
-
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using backend.archivos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.archivos {
     [ApiController]
     [Route("archivos/ver")]
+    [Authorize]
     public class VerArchivosController : ControllerBase {
         private readonly VerArchivosUseCase verArchivosUseCase;
         

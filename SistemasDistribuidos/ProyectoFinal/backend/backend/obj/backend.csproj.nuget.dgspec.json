@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\programacion\\ProyectoFinalSistemasOperativos\\backend\\backend\\backend.csproj": {}
+    "C:\\programacion\\Universidad\\SistemasDistribuidos\\ProyectoFinal\\backend\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\programacion\\ProyectoFinalSistemasOperativos\\backend\\backend\\backend.csproj": {
+    "C:\\programacion\\Universidad\\SistemasDistribuidos\\ProyectoFinal\\backend\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\programacion\\ProyectoFinalSistemasOperativos\\backend\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\programacion\\Universidad\\SistemasDistribuidos\\ProyectoFinal\\backend\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\programacion\\ProyectoFinalSistemasOperativos\\backend\\backend\\backend.csproj",
+        "projectPath": "C:\\programacion\\Universidad\\SistemasDistribuidos\\ProyectoFinal\\backend\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\polid\\.nuget\\packages\\",
-        "outputPath": "C:\\programacion\\ProyectoFinalSistemasOperativos\\backend\\backend\\obj\\",
+        "outputPath": "C:\\programacion\\Universidad\\SistemasDistribuidos\\ProyectoFinal\\backend\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -47,6 +47,10 @@
             "Microsoft.AspNet.WebApi.Core": {
               "target": "Package",
               "version": "[5.2.9, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.12, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net;
-using System.Security.Claims;
+﻿using System.Net;
 using System.Security.Principal;
-using System.Threading;
 
 namespace backend.usuarios._shared {
-    internal class HttpRequestTokenFilter : DelegatingHandler {
+    public class HttpRequestTokenFilter : DelegatingHandler {
         private readonly AuthenticationTokenService authenticationTokenService;
         private readonly UsuariosRepository usuariosRepository;
 

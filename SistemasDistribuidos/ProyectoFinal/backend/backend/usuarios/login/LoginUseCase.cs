@@ -16,7 +16,7 @@ namespace backend.usuarios.login {
             if (usuario == null)
                 throw new ResourceNotFound("Usuario incorrecto");
 
-            string token = this.authenticationTokenService.generate(usuario.usuarioId);
+            string token = this.authenticationTokenService.generate(usuario);
             
             return new LoginResponse(usuario.usuarioId, token);
         }
