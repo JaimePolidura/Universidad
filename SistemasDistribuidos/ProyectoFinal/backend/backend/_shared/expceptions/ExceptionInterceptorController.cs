@@ -11,10 +11,11 @@ namespace backend._shared.expceptions {
         public IActionResult handleError() {
             var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();
             Exception expcetion = exceptionHandlerFeature!.Error;
-
+               
             return expcetion switch {
                 ResourceNotFound rnf  => NotFound(rnf.Message),
                 NotTheOwner nto => Forbid(nto.Message),
+                AlreadyExists ae => BadRequest(ae.Message),
                 _ => StatusCode(500, expcetion.Message)
             };
         }

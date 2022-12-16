@@ -2,8 +2,8 @@
 
 namespace backend._shared {
     public class ApplicationController : ControllerBase{
-        public Guid getUserId() {
-            return Guid.NewGuid();
+        protected Guid getLoggedUserId() {
+            return Guid.Parse(User.Identity.Name);
         }
     }
 }

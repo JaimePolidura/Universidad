@@ -4,12 +4,8 @@ using backend.archivos;
 using backend.usuarios._shared;
 using backend.usuarios.login;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -25,10 +21,15 @@ builder.Services.AddSingleton<HttpRequestTokenFilter>();
 builder.Services.AddSingleton<ArchivosRepository, InMemoryArhivosRepository>();
 builder.Services.AddSingleton<VerArchivosUseCase>();
 
+builder.Services.AddSingleton<NuevaCarpetaUseCase>();
+
 builder.Services.AddSingleton<EspacioTrabajoRepositorio, InMemoryEspacioTrabajoRepositorio>();
+builder.Services.AddSingleton<VerEspacioTrabajosUseCase>();
+
+builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -45,6 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

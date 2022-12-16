@@ -2,12 +2,13 @@
 using backend.archivos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using backend._shared;
 
 namespace backend.archivos {
     [ApiController]
     [Route("archivos/ver")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class VerArchivosController : ControllerBase {
+    public class VerArchivosController : ApplicationController {
         private readonly VerArchivosUseCase verArchivosUseCase;
         
         public VerArchivosController(VerArchivosUseCase verArchivosUseCase) {
@@ -15,12 +16,8 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public List<Archivo> Get([FromQuery] Guid archivoPadreId, [FromQuery] Guid espacioTrabajoId) {
-            var usuario = User;
-            var porro = Thread.CurrentPrincipal;
-            var joder = HttpContext.User;
-
-            return this.verArchivosUseCase.verArchivos(archivoPadreId, espacioTrabajoId, Guid.NewGuid());
+        public List<Archivo> Get([FromQuery] Guid archivoPadreId, [FromQuery] Guid espacioTrabajoId, [FromQuery] bool incluirBorrados = false) {
+            return this.verArchivosUseCase.verArchivos(archivoPadreId, espacioTrabajoId, getLoggedUserId(), incluirBorrados);
         }
     }
 }

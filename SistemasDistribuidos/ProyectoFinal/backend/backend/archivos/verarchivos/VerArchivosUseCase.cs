@@ -10,12 +10,12 @@ namespace backend.archivos {
             this.archivosRepository = archivosRepository;
         }
         
-        public List<Archivo> verArchivos(Guid archivoPadreId, Guid espacioTrabajoId, Guid usuarioId) {
+        public List<Archivo> verArchivos(Guid archivoPadreId, Guid espacioTrabajoId, Guid usuarioId, bool incluirBorrados) {
             this.ensureUserOwnsEspacioTrabajo(espacioTrabajoId, usuarioId);
               
             return archivoPadreId == Guid.Empty ?
-                this.archivosRepository.findRootByEspacioTrabajoId(espacioTrabajoId) :
-                this.archivosRepository.findChildrenByParentId(archivoPadreId, espacioTrabajoId);
+                this.archivosRepository.findRootByEspacioTrabajoId(espacioTrabajoId, incluirBorrados) :
+                this.archivosRepository.findChildrenByParentId(archivoPadreId, espacioTrabajoId, incluirBorrados);
         }
 
         private void ensureUserOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {

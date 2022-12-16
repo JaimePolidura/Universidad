@@ -19,14 +19,18 @@ namespace backend.archivos
                         archivo.espacioTrabajoId.Equals(espacioTrabajoId)).First();
         }
 
-        public List<Archivo> findChildrenByParentId(Guid archivoId, Guid espacioTrabajoId) {
+        public List<Archivo> findChildrenByParentId(Guid archivoId, Guid espacioTrabajoId, bool verBorrados) {
             return this.archivos.Where(archivo => archivo.archivoPadreId.Equals(archivoId) 
-                        && archivo.espacioTrabajoId.Equals(espacioTrabajoId)).ToList();
+                        && archivo.espacioTrabajoId.Equals(espacioTrabajoId))
+                .Where(it => verBorrados || !it.borrado)
+                .ToList();
         }
 
-        public List<Archivo> findRootByEspacioTrabajoId(Guid espacioTrabajoId) {
+        public List<Archivo> findRootByEspacioTrabajoId(Guid espacioTrabajoId, bool verBorrados) {
             return this.archivos.Where(archivo => archivo.espacioTrabajoId.Equals(espacioTrabajoId)
-                && (archivo.archivoPadreId == null || archivo.archivoPadreId == Guid.Empty)).ToList();
+                    && (archivo.archivoPadreId == Guid.Empty))
+                .Where(it => verBorrados || !it.borrado)
+                .ToList();
         }
 
         public void deleteById(Guid archivoId, Guid espacioTrabajoId) {

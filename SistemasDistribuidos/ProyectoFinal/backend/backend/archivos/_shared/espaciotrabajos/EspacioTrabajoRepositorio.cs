@@ -6,6 +6,6 @@ namespace backend.archivos {
 
         EspacioTrabajo findById(Guid espacioTrabajoId);
 
-        List<EspacioTrabajo> findByUsuarioId(Guid usuarioId);
+        List<EspacioTrabajo> findByUsuarioId(Guid usuarioId, bool incluirBorrados);
     }
 }

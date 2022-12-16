@@ -6,8 +6,8 @@
             this.espacioTrabajoRepositorio = espacioTrabajoRepositorio;
         }
 
-        public List<EspacioTrabajo> ver(Guid usuarioId) {
-            return this.espacioTrabajoRepositorio.findByUsuarioId(usuarioId);
+        public List<EspacioTrabajo> ver(Guid usuarioId, bool incluirBorrados) {
+            return this.espacioTrabajoRepositorio.findByUsuarioId(usuarioId, incluirBorrados);
         }
     }
 }

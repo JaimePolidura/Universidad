@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using backend.archivos;
 using Microsoft.AspNetCore.Authorization;
+using backend._shared;
 
 namespace backend.archivos {
     [ApiController]
     [Route("espaciotrabajos/ver")]
     [Authorize]
-    public class VerEspacioTrabajosController : ControllerBase {
+    public class VerEspacioTrabajosController : ApplicationController {
         private readonly VerEspacioTrabajosUseCase verEspacioTrabajosUseCase;
 
         public VerEspacioTrabajosController(VerEspacioTrabajosUseCase verEspacioTrabajosUseCase) {
@@ -14,8 +15,8 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public List<EspacioTrabajo> ver() {
-            return this.verEspacioTrabajosUseCase.ver(Guid.NewGuid());
+        public List<EspacioTrabajo> ver([FromQuery] bool incluirBorrados = false) {
+            return this.verEspacioTrabajosUseCase.ver(getLoggedUserId(), incluirBorrados);
         }
     }
 }
