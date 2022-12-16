@@ -16,5 +16,9 @@ namespace backend.archivos {
         public EspacioTrabajo findById(Guid espacioTrabajoId) {
             return this.espacioTrabajos.Where(it => it.espacioTrabajoId.Equals(espacioTrabajoId)).FirstOrDefault();
         }
+
+        public List<EspacioTrabajo> findByUsuarioId(Guid usuarioId) {
+            return this.espacioTrabajos.Where(it => it.usuarioId.Equals(usuarioId)).ToList();
+        }
     }
 }

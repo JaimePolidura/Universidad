@@ -5,5 +5,7 @@ namespace backend.archivos {
         void save(EspacioTrabajo espacioTrabajo);
 
         EspacioTrabajo findById(Guid espacioTrabajoId);
+
+        List<EspacioTrabajo> findByUsuarioId(Guid usuarioId);
     }
 }
