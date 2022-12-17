@@ -1,6 +1,8 @@
 using backend;
 using backend._shared.expceptions;
 using backend.archivos;
+using backend.archivos._shared.blobs;
+using backend.archivos._shared.espaciotrabajos;
 using backend.usuarios._shared;
 using backend.usuarios.login;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,27 +12,34 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
+//Comun
 builder.Services.AddControllers();
-builder.Services.AddSingleton<LoginUseCase>();
-builder.Services.AddSingleton<AuthenticationTokenService>();
-builder.Services.AddSingleton<UsuariosRepository, InMemoryUsuariosRepository>();
-builder.Services.AddSingleton<HttpRequestTokenFilter>();
 builder.Services.AddSingleton<ExceptionInterceptorController>();
 builder.Services.AddSingleton<HttpRequestTokenFilter>();
 
-builder.Services.AddSingleton<ArchivosRepository, InMemoryArhivosRepository>();
-builder.Services.AddSingleton<VerArchivosUseCase>();
+//Usuarios
+builder.Services.AddSingleton<AuthenticationTokenService>();
+builder.Services.AddSingleton<UsuariosRepository, InMemoryUsuariosRepository>();
 
-builder.Services.AddSingleton<NuevaCarpetaUseCase>();
-
+//EspacioTrabajos
 builder.Services.AddSingleton<EspacioTrabajoRepositorio, InMemoryEspacioTrabajoRepositorio>();
 builder.Services.AddSingleton<VerEspacioTrabajosUseCase>();
+builder.Services.AddSingleton<EspacioTrabajoPermisosService>();
+
+//Archivos
+builder.Services.AddSingleton<ArchivosRepository, InMemoryArhivosRepository>();
+
+//Blobs
+builder.Services.AddSingleton<BlobRepository, InMemoryBlobRepository>();
+
+//Caso uso
+builder.Services.AddSingleton<VerArchivosUseCase>();
+builder.Services.AddSingleton<NuevaCarpetaUseCase>();
+builder.Services.AddSingleton<DescargarArchivoUseCase>();
+builder.Services.AddSingleton<LoginUseCase>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
-
 builder.Services.AddEndpointsApiExplorer();
-
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters()

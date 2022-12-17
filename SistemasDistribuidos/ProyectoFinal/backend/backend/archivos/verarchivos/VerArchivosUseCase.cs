@@ -1,12 +1,13 @@
 ﻿using backend._shared.expceptions;
+using backend.archivos._shared.espaciotrabajos;
 
 namespace backend.archivos {
     public class VerArchivosUseCase {
-        private readonly EspacioTrabajoRepositorio espacioTrabajoRepositorio;
+        private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
         private readonly ArchivosRepository archivosRepository;
         
-        public VerArchivosUseCase(ArchivosRepository archivosRepository, EspacioTrabajoRepositorio espacioTrabajoRepositorio) {
-            this.espacioTrabajoRepositorio = espacioTrabajoRepositorio;
+        public VerArchivosUseCase(ArchivosRepository archivosRepository, EspacioTrabajoPermisosService espacioTrabajoPermisosService) {
+            this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
             this.archivosRepository = archivosRepository;
         }
         
@@ -19,12 +20,9 @@ namespace backend.archivos {
         }
 
         private void ensureUserOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            EspacioTrabajo espacio = this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
-               
-            if (espacio == null)
-                throw new ResourceNotFound("No se encuentra el espacio de trabajo");
-            if (espacio.usuarioId.Equals(usuarioId) == false)
-                throw new NotTheOwner("El espacio de trabajo no le pertenece");
+            if(!this.espacioTrabajoPermisosService.puedeLeer(espacioTrabajoId, usuarioId)) {
+                throw new ResourceNotFound("No se encuentra el espacio de trabajo / No tienes permisos");
+            }
         }
     }
 }
