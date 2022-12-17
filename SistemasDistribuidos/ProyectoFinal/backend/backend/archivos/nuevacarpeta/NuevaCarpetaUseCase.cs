@@ -21,11 +21,11 @@ namespace backend.archivos {
                 espacioTrabajoId: request.espacioTrabajoId,
                 borrado: false,
                 fechaCreacion: DateTime.Now,
-                fechaBorrado: DateTime.Now,
+                fechaBorrado: null,
                 usuarioIdBorrado: Guid.Empty,
                 archivoPadreId: request.archivoPadreId,
                 esCarpeta: true,
-                nombre: request.nombreCarpeta,
+                nombre: request.nombreCarpeta!,
                 formato: ""
            );
 

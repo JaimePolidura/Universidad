@@ -13,10 +13,18 @@ namespace backend.archivos
                
             this.archivos.Add(archivo);
         }
-          
-        public Archivo findById(Guid archivoId, Guid espacioTrabajoId) {
+
+        public Archivo findById(Guid archivoId, bool incluirBorrados) {
+            return this.archivos.Where(it => it.archivoId.Equals(archivoId))
+                .Where(it => incluirBorrados || !it.borrado)
+                .FirstOrDefault();
+        }
+
+        public Archivo findById(Guid archivoId, Guid espacioTrabajoId, bool incluirBorrados) {
             return this.archivos.Where(archivo => archivo.archivoId.Equals(archivoId) && 
-                        archivo.espacioTrabajoId.Equals(espacioTrabajoId)).First();
+                        archivo.espacioTrabajoId.Equals(espacioTrabajoId))
+                .Where(it => incluirBorrados || !it.borrado)
+                .FirstOrDefault();
         }
 
         public List<Archivo> findChildrenByParentId(Guid archivoId, Guid espacioTrabajoId, bool verBorrados) {
