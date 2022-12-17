@@ -9,13 +9,13 @@
         public bool puedeLeer(Guid espacioTrabajoId, Guid usuarioId) {
             EspacioTrabajo espacioTrabajo = this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
 
-            return espacioTrabajo.usuarioId.Equals(usuarioId);
+            return espacioTrabajo != null && espacioTrabajo.usuarioId.Equals(usuarioId);
         }
 
         public bool puedeEscribir(Guid espacioTrabajoId, Guid usuarioId) {
             EspacioTrabajo espacioTrabajo = this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
 
-            return espacioTrabajo.usuarioId.Equals(usuarioId);
+            return espacioTrabajo != null && espacioTrabajo.usuarioId.Equals(usuarioId);
         }
     }
 }

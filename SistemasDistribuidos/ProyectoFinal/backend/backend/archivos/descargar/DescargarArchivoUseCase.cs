@@ -1,8 +1,6 @@
 ﻿using backend._shared.expceptions;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
 
 namespace backend.archivos {
     public class DescargarArchivoUseCase {
@@ -16,17 +14,17 @@ namespace backend.archivos {
             this.archivosRepository = archivosRepository;
             this.blobRepository = blobRepository;
         }
-
+           
         public byte[] descargar(Guid archivoId, Guid usuarioId, int version = -1, bool ultimaVersion = true) {
-            if (!ultimaVersion) throw new NotImplemented("Funcionalidadm no implementada");
-            Archivo archivo = this.ensureArchivoExistsAndOwnsArchivo(archivoId, usuarioId);
+            if (!ultimaVersion) throw new NotImplemented("Funcionalidad no implementada");
+            this.ensureArchivoExistsAndOwnsArchivo(archivoId, usuarioId);
 
-            Blob blob = this.blobRepository.findByArchivoIdAndLastVersion(archivo.archivoId);
+            Blob blob = this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
 
             return blob.binario;
         }
 
-        private Archivo ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {
+        private void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {
             Archivo archivo = this.archivosRepository.findById(archivoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("Archivo no encontrado");
@@ -37,8 +35,6 @@ namespace backend.archivos {
             if (!this.espacioTrabajoPermisosService.puedeLeer(archivo.espacioTrabajoId, usuarioId)) {
                 throw new NotTheOwner("Este espacio trabajo no te corresponde");
             }
-
-            return archivo;
         }
     }
 }

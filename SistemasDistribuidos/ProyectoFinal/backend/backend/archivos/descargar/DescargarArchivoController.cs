@@ -16,7 +16,9 @@ namespace backend.archivos {
 
         [HttpGet]
         public byte[] descargar([FromQuery] Guid archivoId, [FromQuery] int version = -1, [FromQuery] bool ultimaVersion = true) {
-            return this.descargarArchivoUseCase.descargar(archivoId, getLoggedUserId(), version, ultimaVersion);
+            var binario = this.descargarArchivoUseCase.descargar(archivoId, getLoggedUserId(), version, ultimaVersion);
+
+            return binario;
         }
     }
 }

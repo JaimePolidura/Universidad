@@ -32,11 +32,12 @@ builder.Services.AddSingleton<ArchivosRepository, InMemoryArhivosRepository>();
 //Blobs
 builder.Services.AddSingleton<BlobRepository, InMemoryBlobRepository>();
 
-//Caso uso
+//Casos de uso
 builder.Services.AddSingleton<VerArchivosUseCase>();
 builder.Services.AddSingleton<NuevaCarpetaUseCase>();
 builder.Services.AddSingleton<DescargarArchivoUseCase>();
 builder.Services.AddSingleton<LoginUseCase>();
+builder.Services.AddSingleton<SubirNuevoArchivoUseCase>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 builder.Services.AddEndpointsApiExplorer();
