@@ -2,10 +2,21 @@
     public class InMemoryBlobRepository : BlobRepository {
         private readonly List<Blob> blobs = new List<Blob>();
 
+        public List<Blob> findByArchivoId(Guid archivoId) {
+            return this.blobs.Where(it => it.archivoId.Equals(archivoId))
+                .OrderBy(blob => blob.fechaCreacion)
+                .Reverse()
+                .ToList();
+        }
+
         public Blob findByArchivoIdAndLastVersion(Guid archivoId) {
             return this.blobs.Where(it => it.archivoId.Equals(archivoId))
                     .OrderBy(blob => blob.fechaCreacion)
                     .Last();
+        }
+
+        public Blob findByBlobId(Guid blobId) {
+            return this.blobs.Where(it => it.blobId.Equals(blobId)).FirstOrDefault();
         }
 
         public void save(Blob blob) {

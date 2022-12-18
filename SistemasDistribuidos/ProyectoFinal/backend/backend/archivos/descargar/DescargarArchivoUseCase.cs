@@ -14,14 +14,27 @@ namespace backend.archivos {
             this.archivosRepository = archivosRepository;
             this.blobRepository = blobRepository;
         }
-           
-        public Blob descargar(Guid archivoId, Guid usuarioId, int version = -1, bool ultimaVersion = true) {
-            if (!ultimaVersion) throw new NotImplemented("Funcionalidad no implementada");
+          
+        public Blob descargar(Guid archivoId, Guid usuarioId, Guid blobId, bool ultimaVersion = true) {
             this.ensureArchivoExistsAndOwnsArchivo(archivoId, usuarioId);
 
-            Blob blob = this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
+            if (ultimaVersion) {
+                return this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
+            }
 
+            Blob blob = this.blobRepository.findByBlobId(blobId);
+            this.ensureBlobExistsAndBelongsToArchivo(blob, archivoId);
+            
             return blob;
+        }
+
+        private void ensureBlobExistsAndBelongsToArchivo(Blob blob, Guid archivoId) {
+            if(blob == null) {
+                throw new ResourceNotFound("No se ha encontrado el archivo");
+            }
+            if (!blob.archivoId.Equals(archivoId)) {
+                throw new NotTheOwner("Archivo incorrecto");
+            }
         }
 
         private void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {

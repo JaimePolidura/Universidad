@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {Archivo} from "./archivo";
 import {NuevaCarpetaRequest} from "./api/nueva-carpeta-request";
 import {RenombrarArchivoRequest} from "./api/renombrar-archivo-request";
+import {ArchivoVersion} from "./archivo-version";
+import {archivoComparator} from "../../app/archivos/archivo/archivo-comparator";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,10 @@ export class ArchivosService {
   public getArchivos(espacioTrabajoId: string, archivoPadreId?: string): Observable<Archivo[]> {
       return this.httpClient.get<Archivo[]>(`${this.backendRoutes.USING}/archivos/ver?espacioTrabajoId=${espacioTrabajoId}
           ${archivoPadreId == null ? '' : '&archivoPadreId=' + archivoPadreId}`);
+  }
+
+  public getVersiones(archivoId: string): Observable<ArchivoVersion[]> {
+    return this.httpClient.get<ArchivoVersion[]>(`${this.backendRoutes.USING}/archivos/verversiones?archivoId=${archivoId}`);
   }
 
   public borrar(archivoId: string): Observable<void> {

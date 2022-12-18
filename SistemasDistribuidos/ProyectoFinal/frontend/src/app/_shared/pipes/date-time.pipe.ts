@@ -5,8 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DateTimePipe implements PipeTransform {
 
-  transform(value?: string): string {
-    return value ? value.split("T")[0] : '';
+  transform(value?: string, showTime: boolean = false): string {
+    return value ?
+      (showTime ?
+        value.split("T")[0] + " " + value.split("T")[1].split(".")[0] :
+        value.split("T")[0]) :
+      '';
   }
 
 }

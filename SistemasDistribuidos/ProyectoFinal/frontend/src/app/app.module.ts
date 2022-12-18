@@ -20,6 +20,7 @@ import { DateTimePipe } from './_shared/pipes/date-time.pipe';
 import {NgbDropdownModule, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ConfirmationModalComponent} from "./_shared/components/confirmation-modal/confirmation-modal.component";
+import { ArchivoVersionesModalComponent } from './archivos/archivo/archivo-versiones-modal/archivo-versiones-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {ConfirmationModalComponent} from "./_shared/components/confirmation-moda
     InputNameModalComponent,
     ArchivoRutaNavegacionComponent,
     ConfirmationModalComponent,
-    DateTimePipe
+    DateTimePipe,
+    ArchivoVersionesModalComponent
   ],
   imports: [
     NgbModule,

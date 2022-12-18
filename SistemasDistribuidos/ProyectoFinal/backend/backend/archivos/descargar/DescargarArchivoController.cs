@@ -15,8 +15,8 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public ActionResult descargar([FromQuery] Guid archivoId, [FromQuery] int version = -1, [FromQuery] bool ultimaVersion = true) {
-            Blob blob = this.descargarArchivoUseCase.descargar(archivoId, getLoggedUserId(), version, ultimaVersion);
+        public ActionResult descargar([FromQuery] Guid archivoId, [FromQuery] Guid blobId, [FromQuery] bool ultimaVersion = true) {
+            Blob blob = this.descargarArchivoUseCase.descargar(archivoId, getLoggedUserId(), blobId, ultimaVersion);
                
             return File(blob.binario, blob.formato, fileDownloadName: blob.nombre);
         }

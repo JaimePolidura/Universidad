@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h2 style="text-align: center">Versiones {{archivo?.nombre}}</h2>
+  <button class="btn-close" type="button" (click)="activeModal.close()"></button>
+</div>
+
+<div class="modal-body">
+  <app-loading-spinner [$loading]="$loading"></app-loading-spinner>
+
+  <div *ngIf="($loading | async) == false">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Nº Version</th>
+        <th>Nombre</th>
+        <th>Fecha modificacion</th>
+        <th>Restaurar</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let version of verionesArchivo, let i = index">
+        <th scope="{{i == 0 ? 'row' : ''}}">{{verionesArchivo.length - i}}</th>
+        <th class="table-icon-button" (click)="download(version)"><span class="underlined">{{version.nombre}}</span></th>
+        <th>{{version.fechaCreacion | dateTime: true}}</th>
+        <th>
+          <button class="btn btn-primary" [ngClass]="{'disabled myDisabled': i == 0}">Restaurar</button>
+        </th>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="modal-footer modal-footer-buttons-ok-cancel">
+  <button class="btn btn-primary" (click)="activeModal.close()">✓ Ok ✓</button>
+</div>

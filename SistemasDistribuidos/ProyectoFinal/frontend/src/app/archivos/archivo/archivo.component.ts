@@ -7,6 +7,7 @@ import {InputNameModalComponent} from "../../_shared/components/input-name-modal
 import {ConfirmationModalComponent} from "../../_shared/components/confirmation-modal/confirmation-modal.component";
 import {ConfirmControlButtonsStyles} from "../../_shared/components/confirmation-modal/confirm-control-buttons-styles";
 import {NgbCalendarHijri} from "@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-hijri";
+import {ArchivoVersionesModalComponent} from "./archivo-versiones-modal/archivo-versiones-modal.component";
 
 @Component({
   selector: 'app-archivo',
@@ -60,6 +61,11 @@ export class ArchivoComponent {
     this.blobService.downloadLastVersion(this.archivo as Archivo).subscribe(result => {}, err => {
       this.toast.error('Error al descargar el archivo');
     });
+  }
+
+  abrirMOdalVerVersiones() {
+    const modal = this.modalService.open(ArchivoVersionesModalComponent, { windowClass: 'midmodal' });
+    modal.componentInstance.archivo = this.archivo as Archivo;
   }
 }
 

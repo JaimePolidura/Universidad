@@ -12,11 +12,23 @@
       <div ngbDropdown placement="bottom-right">
         <i ngbDropdownToggle class="fa-solid fa-ellipsis fa-2x table-icon-button" id="dropdownMenuButton1"></i>
         <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1 dropdown-content">
-          <div (click)="abrirModalRenombrar()"><li class="dropdown-option"><i class="fa-solid fa-pen-to-square"></i> Renombrar</li></div>
+          <div (click)="abrirModalRenombrar()">
+            <li class="dropdown-option"><i class="fa-solid fa-pen-to-square"></i> Renombrar</li>
+          </div>
+
+          <div *ngIf="!archivo?.esCarpeta"
+               (click)="abrirMOdalVerVersiones()">
+            <li class="dropdown-option"><i class="fa-solid fa-code-branch"></i> Ver versiones</li>
+          </div>
+
           <div (click)="descargar()"
-               *ngIf="!archivo?.esCarpeta"><li class="dropdown-option"><i class="fa-solid fa-download"></i> Descargar</li></div>
-          <br>
-          <div (click)="abrirModalConfirmacionBorrar()"><li class="dropdown-option red"><i class="fa-solid fa-trash"></i> Borrar</li></div>
+               *ngIf="!archivo?.esCarpeta">
+            <li class="dropdown-option"><i class="fa-solid fa-download"></i> Descargar</li>
+          </div><br>
+
+          <div (click)="abrirModalConfirmacionBorrar()">
+            <li class="dropdown-option red"><i class="fa-solid fa-trash"></i> Borrar</li>
+          </div>
         </ul>
       </div>
     </div>
