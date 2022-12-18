@@ -6,7 +6,7 @@ import {Archivo} from "./archivo";
 import {NuevaCarpetaRequest} from "./api/nueva-carpeta-request";
 import {RenombrarArchivoRequest} from "./api/renombrar-archivo-request";
 import {ArchivoVersion} from "./archivo-version";
-import {archivoComparator} from "../../app/archivos/archivo/archivo-comparator";
+import {RestaurarArchivoRequest} from "./api/restaurar-archivo-request";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,10 @@ export class ArchivosService {
 
   public getVersiones(archivoId: string): Observable<ArchivoVersion[]> {
     return this.httpClient.get<ArchivoVersion[]>(`${this.backendRoutes.USING}/archivos/verversiones?archivoId=${archivoId}`);
+  }
+
+  public restaurar(req: RestaurarArchivoRequest): Observable<ArchivoVersion> {
+    return this.httpClient.post<ArchivoVersion>(`${this.backendRoutes.USING}/archivos/restaurarversion`, req);
   }
 
   public borrar(archivoId: string): Observable<void> {

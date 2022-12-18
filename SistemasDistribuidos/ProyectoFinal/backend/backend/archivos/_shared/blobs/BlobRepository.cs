@@ -7,5 +7,7 @@
         List<Blob> findByArchivoId(Guid archivoId);
 
         Blob findByArchivoIdAndLastVersion(Guid archivoId);
+
+        void deleteByArchivoIdAndMoreThanFechaCreacion(Guid archivoId, DateTime creationDate);
     }
 }

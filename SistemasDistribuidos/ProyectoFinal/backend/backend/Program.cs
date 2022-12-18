@@ -43,6 +43,7 @@ builder.Services.AddSingleton<ReemplazarArchivoUseCase>();
 builder.Services.AddSingleton<RenombrarArchivoUseCase>();
 builder.Services.AddSingleton<BorrarArchivoUseCase>();
 builder.Services.AddSingleton<VerVersionesUseCase>();
+builder.Services.AddSingleton<RestaurarVersionUseCase>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 builder.Services.AddEndpointsApiExplorer();

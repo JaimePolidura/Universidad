@@ -39,9 +39,16 @@ export class ArchivoRutaNavegacionComponent implements OnInit {
   }
 
   private onArchivoBorradoId(archivoBorradoId: string): void {
-    this.getArchivosActuales().splice(
-      this.getArchivosActuales().findIndex(it => it.archivoId == archivoBorradoId), 1
-    )
+    for(const ruta of this.rutaActual){
+      for(let i = 0; i < ruta.archivos.length; i++){
+        if(ruta.archivos[i].archivoId == archivoBorradoId){
+          ruta.archivos.splice(i, 1);
+        }
+      }
+    }
+    // this.getArchivosActuales().splice(
+    //   this.getArchivosActuales().findIndex(it => it.archivoId == archivoBorradoId), 1
+    // );
   }
 
   private onArchivoReemplazado(nuevoArchivoReemplazdo: Archivo): void {

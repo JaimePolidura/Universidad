@@ -2,6 +2,10 @@
     public class InMemoryBlobRepository : BlobRepository {
         private readonly List<Blob> blobs = new List<Blob>();
 
+        public void deleteByArchivoIdAndMoreThanFechaCreacion(Guid archivoId, DateTime creationDate) {
+            this.blobs.RemoveAll(it => it.archivoId.Equals(archivoId) && it.fechaCreacion > creationDate);
+        }
+
         public List<Blob> findByArchivoId(Guid archivoId) {
             return this.blobs.Where(it => it.archivoId.Equals(archivoId))
                 .OrderBy(blob => blob.fechaCreacion)

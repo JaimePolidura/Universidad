@@ -22,7 +22,7 @@
         <th class="table-icon-button" (click)="download(version)"><span class="underlined">{{version.nombre}}</span></th>
         <th>{{version.fechaCreacion | dateTime: true}}</th>
         <th>
-          <button class="btn btn-primary" [ngClass]="{'disabled myDisabled': i == 0}">Restaurar</button>
+          <button class="btn btn-primary" [ngClass]="{'disabled myDisabled': i == 0}" (click)="restaurar(version, i)">Restaurar</button>
         </th>
       </tr>
       </tbody>
