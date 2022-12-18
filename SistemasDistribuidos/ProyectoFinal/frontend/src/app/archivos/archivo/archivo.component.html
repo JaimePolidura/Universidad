@@ -1,0 +1,23 @@
+<div class="archivo-content">
+  <div class="col1 pointer" (click)="archivoClickeado()">
+    <img [src]="imageSrc()" height="50px" width="50px"/>
+    <span class="underlined">{{archivo?.nombre}}</span>
+  </div>
+
+  <div class="col2">
+    <div class="creado">
+      <span>{{archivo?.fechaCreacion | dateTime}}</span>
+    </div>
+    <div class="options">
+      <div ngbDropdown placement="bottom-right">
+        <i ngbDropdownToggle class="fa-solid fa-ellipsis fa-2x table-icon-button" id="dropdownMenuButton1"></i>
+        <ul ngbDropdownMenu aria-labelledby="dropdownMenuButton1 dropdown-content">
+          <div><li class="dropdown-option"><i class="fa-solid fa-pen-to-square"></i> Renombrar</li></div>
+          <div><li class="dropdown-option"><i class="fa-solid fa-download"></i> Descargar</li></div>
+          <br>
+          <div><li class="dropdown-option red"><i class="fa-solid fa-trash"></i> Borrar</li></div>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

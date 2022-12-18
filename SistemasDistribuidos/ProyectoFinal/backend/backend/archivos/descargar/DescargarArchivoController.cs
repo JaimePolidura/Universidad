@@ -9,16 +9,16 @@ namespace backend.archivos {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DescargarArchivoController : ApplicationController {
         private readonly DescargarArchivoUseCase descargarArchivoUseCase;
-
+        
         public DescargarArchivoController(DescargarArchivoUseCase descargarArchivoUseCase) {
             this.descargarArchivoUseCase = descargarArchivoUseCase;
         }
 
         [HttpGet]
-        public byte[] descargar([FromQuery] Guid archivoId, [FromQuery] int version = -1, [FromQuery] bool ultimaVersion = true) {
-            var binario = this.descargarArchivoUseCase.descargar(archivoId, getLoggedUserId(), version, ultimaVersion);
-
-            return binario;
+        public ActionResult descargar([FromQuery] Guid archivoId, [FromQuery] int version = -1, [FromQuery] bool ultimaVersion = true) {
+            Blob blob = this.descargarArchivoUseCase.descargar(archivoId, getLoggedUserId(), version, ultimaVersion);
+               
+            return File(blob.binario, blob.formato, fileDownloadName: blob.nombre);
         }
     }
 }

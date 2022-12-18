@@ -25,7 +25,9 @@ namespace backend.archivos.reemplazararchivo {
                 archivoId: archivo.archivoId,
                 binario: BytesReader.readFromFormFile(request.blob),
                 fechaCreacion: DateTime.Now,
-                usuarioIdCreacion: usuarioId);
+                usuarioIdCreacion: usuarioId,
+                nombre: request.blob.FileName,
+                formato: request.blob.ContentType);
 
             archivo.nombre = request.blob.FileName;
             archivo.formato = request.blob.ContentType;

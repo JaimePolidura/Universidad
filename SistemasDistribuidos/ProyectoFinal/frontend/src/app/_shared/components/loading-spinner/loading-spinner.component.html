@@ -1,0 +1,6 @@
+<div *ngIf="($loading | async) == true" [ngClass]="{'d-flex justify-content-center': centered}">
+  <div class="spinner-border" [ngClass]="{'big': centered}" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+

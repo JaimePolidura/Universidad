@@ -1,0 +1,28 @@
+<input type="file"
+       style="display: none"
+       (click)="onArchivoSubirClick($event)"
+       (change)="onArchivoSubirSeleccionado($event)"
+       #fileInput />
+
+<div class="content">
+    <div class="input-sequence">
+      <button class="btn btn-primary" (click)="nuevaCarpeta()">+ Carpeta</button>
+      <button class="btn btn-primary" (click)="fileInput.click()">+ Archivo </button>
+    </div><br>
+  <app-archivo-ruta-navegacion #rutaNavegacionComponent
+                               (rutaNavegada)="onRutaNavegadaHaciaTras($event)"
+                               [$archivosInictiales]="$archivosInictiales"
+                               [$onArchivoReemplazado]="$onArchivoReemplazado"
+                               [$onNuevaCarpetaEntrada]="$nuevaCarpetaEntrada"
+                               [$onNuevoArchivoCreado]="$nuevoArchivoCreado">
+  </app-archivo-ruta-navegacion>
+  <hr style="width: 100%">
+  <app-loading-spinner [centered]="true" [$loading]="$loading"></app-loading-spinner>
+
+  <div class="archivos">
+    <app-archivo *ngFor="let archivo of archivos"
+                 (carpetaSeleccionada)="onCarpetaSeleccionada($event)"
+                 [archivo]="archivo"></app-archivo>
+  </div>
+
+</div>

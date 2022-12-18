@@ -1,0 +1,14 @@
+<div class="centered-mycontainer dif-container">
+  <h2 style="text-align: center">Espacio de trabajos</h2>
+  <app-loading-spinner [centered]="true" [$loading]="$loading"></app-loading-spinner>
+
+  <hr *ngIf="($loading | async) == false">
+
+  <div class="espacioTrabajos">
+    <app-espacio-trabajo *ngFor="let espacioTrabajo of espacioTrabajosLoaded"
+                         (espacioTrabajoSeleccionado)="onEspacioTrabajoSelecionado($event)"
+                         [espacioTrabajo]="espacioTrabajo" >
+    </app-espacio-trabajo>
+  </div>
+
+</div>

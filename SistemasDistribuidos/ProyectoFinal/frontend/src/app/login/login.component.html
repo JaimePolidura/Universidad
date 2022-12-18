@@ -1,0 +1,29 @@
+<div class="centered-mycontainer dif-container">
+  <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
+    <h2>Iniciar sesion</h2><hr><br>
+    <div *ngIf="($loginState | async) == 'ERROR'" class="alert alert-danger" role="alert">
+      Usuario o contraseña
+    </div>
+    <input class="form-control"
+           [appFocus]=""
+           type="text"
+           formControlName="username"
+           placeholder="Tu nombre de usuario"
+           [ngClass]="{'is-invalid': username.errors && (username.touched || username.dirty)}"  />
+    <br>
+    <input class="form-control"
+           formControlName="password"
+           type="password"
+           placeholder="Tu contraseña"
+           [ngClass]="{'is-invalid': password.errors && (password.touched || password.dirty)}"
+    />
+
+    <br><br>
+    <button type="submit"
+            class="btn btn-primary"
+            [ngClass]="{'myDisabled disabled': ($loginState | async) == 'LOADING'}">
+      Login
+      <span *ngIf="($loginState | async) == 'LOADING'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    </button>
+  </form>
+</div>

@@ -15,13 +15,13 @@ namespace backend.archivos {
             this.blobRepository = blobRepository;
         }
            
-        public byte[] descargar(Guid archivoId, Guid usuarioId, int version = -1, bool ultimaVersion = true) {
+        public Blob descargar(Guid archivoId, Guid usuarioId, int version = -1, bool ultimaVersion = true) {
             if (!ultimaVersion) throw new NotImplemented("Funcionalidad no implementada");
             this.ensureArchivoExistsAndOwnsArchivo(archivoId, usuarioId);
 
             Blob blob = this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
 
-            return blob.binario;
+            return blob;
         }
 
         private void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {

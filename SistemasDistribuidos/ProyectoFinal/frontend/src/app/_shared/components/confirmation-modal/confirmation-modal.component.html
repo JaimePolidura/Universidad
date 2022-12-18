@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h2 style="text-align: center">{{title}}</h2>
+  <button class="btn-close" type="button" (click)="closeModal()"></button>
+</div>
+
+<div class="modal-body">
+  {{body}}
+  <br *ngIf="list != undefined && list.length > 0">
+  <ul *ngIf="list != undefined && list.length > 0">
+    <li *ngFor="let listItem of list">{{listItem}}</li>
+  </ul>
+</div>
+
+<div class="modal-footer modal-footer-buttons-ok-cancel">
+  <button class="btn"
+          [ngClass]="{'btn-danger': styles == 'CANCEL_RED_OK_GREEN', 'btn-success': styles == 'CANCEL_GREEN_OK_RED'}"
+          (click)="closeModal()">
+    {{cancelButtonText}}
+  </button>
+
+  <button class="btn"
+          [ngClass]="{'btn-success': styles == 'CANCEL_RED_OK_GREEN', 'btn-danger': styles == 'CANCEL_GREEN_OK_RED'}"
+          (click)="onAcceptFn()">
+    {{okButtonText}}
+  </button>
+</div>
+

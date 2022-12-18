@@ -1,0 +1,30 @@
+.archivo-content {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 90%;
+}
+
+.archivo-content:hover {
+  background-color: #e9ecef;
+  transition: 0.25s;
+}
+
+.archivo-content > *{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.col1 {
+  grid-column: 1;
+  justify-content: left;
+  gap: 5%;
+}
+
+.col2 {
+  grid-column: 2;
+  justify-content: right;
+  gap: 10%;
+  margin-right: 1%;
+}
+

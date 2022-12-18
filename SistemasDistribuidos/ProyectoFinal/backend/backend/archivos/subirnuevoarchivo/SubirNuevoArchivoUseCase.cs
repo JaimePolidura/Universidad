@@ -35,13 +35,16 @@ namespace backend.archivos {
                 esCarpeta: false,
                 nombre: request.blob.FileName,
                 formato: request.blob.ContentType.ToString());
-
+                    
             Blob blob = new Blob(
                 blobId: Guid.NewGuid(),
                 archivoId: archivoId,
                 binario: BytesReader.readFromFormFile(request.blob),
                 fechaCreacion: now,
-                usuarioIdCreacion: usuarioId);
+                usuarioIdCreacion: usuarioId,
+                nombre: request.blob.FileName,
+                formato: request.blob.ContentType
+            );
 
             this.archivosRepository.save(archivo);
             this.blobRepository.save(blob);
