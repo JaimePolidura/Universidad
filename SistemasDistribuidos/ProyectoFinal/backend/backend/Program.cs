@@ -3,6 +3,7 @@ using backend._shared.expceptions;
 using backend.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
+using backend.archivos.reemplazararchivo;
 using backend.usuarios._shared;
 using backend.usuarios.login;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,7 @@ builder.Services.AddSingleton<NuevaCarpetaUseCase>();
 builder.Services.AddSingleton<DescargarArchivoUseCase>();
 builder.Services.AddSingleton<LoginUseCase>();
 builder.Services.AddSingleton<SubirNuevoArchivoUseCase>();
+builder.Services.AddSingleton<ReemplazarArchivoUseCase>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 builder.Services.AddEndpointsApiExplorer();

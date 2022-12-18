@@ -1,4 +1,5 @@
-﻿using backend._shared.expceptions;
+﻿using backend._shared;
+using backend._shared.expceptions;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
 using backend.archivos.subirarchivo;
@@ -38,7 +39,7 @@ namespace backend.archivos {
             Blob blob = new Blob(
                 blobId: Guid.NewGuid(),
                 archivoId: archivoId,
-                binario: this.readBytes(request.blob),
+                binario: BytesReader.readFromFormFile(request.blob),
                 fechaCreacion: now,
                 usuarioIdCreacion: usuarioId);
 
@@ -46,16 +47,6 @@ namespace backend.archivos {
             this.blobRepository.save(blob);
 
             return archivo;
-        }
-
-        private byte[] readBytes(IFormFile file) {
-            byte[] fileBytes;
-            using (var stream = file.OpenReadStream()) {
-                fileBytes = new byte[stream.Length];
-                stream.Read(fileBytes, 0, (int)stream.Length);
-            }
-
-            return fileBytes;
         }
            
         private void ensureHasPermissionsInEspacioTrabajo(SubirNuevoArchivoRequest request, Guid usuarioId) {
