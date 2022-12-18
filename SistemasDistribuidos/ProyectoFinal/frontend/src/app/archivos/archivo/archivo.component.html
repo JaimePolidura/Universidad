@@ -16,7 +16,7 @@
           <div (click)="descargar()"
                *ngIf="!archivo?.esCarpeta"><li class="dropdown-option"><i class="fa-solid fa-download"></i> Descargar</li></div>
           <br>
-          <div><li class="dropdown-option red"><i class="fa-solid fa-trash"></i> Borrar</li></div>
+          <div (click)="abrirModalConfirmacionBorrar()"><li class="dropdown-option red"><i class="fa-solid fa-trash"></i> Borrar</li></div>
         </ul>
       </div>
     </div>

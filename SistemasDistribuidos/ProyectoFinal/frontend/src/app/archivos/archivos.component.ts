@@ -14,6 +14,7 @@ import {BlobsService} from "../../api/blobs/blobs.service";
 import {archivoComparator} from "./archivo/archivo-comparator";
 import {ConfirmationModalComponent} from "../_shared/components/confirmation-modal/confirmation-modal.component";
 import {NuevoNombreSeleccionado} from "./archivo/archivo.component";
+import {NgbCalendarHijri} from "@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-hijri";
 
 @Component({
   selector: 'app-archivos',
@@ -32,6 +33,7 @@ export class ArchivosComponent implements OnInit {
   $archivosInictiales = new Subject<Archivo[]>();
   $nuevaCarpetaEntrada = new Subject<ItemRutaNavegacion>();
   $onArchivoReemplazado = new Subject<Archivo>();
+  $archivoBorrado = new Subject<string>();
 
   constructor(
     private route: ActivatedRoute,
@@ -104,6 +106,21 @@ export class ArchivosComponent implements OnInit {
       const archivoAReemplazar = this.archivos.filter(it => it.nombre.toLowerCase() == file.name.toLowerCase())[0];
 
       this.reemplazarArchivo(file, archivoAReemplazar);
+    });
+  }
+
+  onArchivoMarcadoParaBorrar($event: Archivo): void {
+    this.$loading.next(true);
+
+    this.archivosService.borrar($event.archivoId).subscribe(() => {
+      this.$loading.next(false);
+      this.archivos.splice(this.archivos.findIndex(it => it.archivoId == $event.archivoId), 1);
+      this.$archivoBorrado.next($event.archivoId);
+      this.toast.success('Se ha borrado ' + $event.nombre);
+
+    }, err => {
+      this.toast.error(err);
+      this.$loading.next(false);
     });
   }
 

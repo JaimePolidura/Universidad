@@ -22,6 +22,7 @@ export class ArchivoRutaNavegacionComponent implements OnInit {
   @Input() $onNuevoArchivoCreado: Subject<Archivo> | undefined;
   @Input() $onNuevaCarpetaEntrada: Subject<ItemRutaNavegacion> | undefined;
   @Input() $onArchivoReemplazado: Subject<Archivo> | undefined;
+  @Input() $onArchivoBorrado: Subject<string> | undefined;
 
   @Output() rutaNavegada = new EventEmitter<ItemRutaNavegacion>();
 
@@ -33,7 +34,14 @@ export class ArchivoRutaNavegacionComponent implements OnInit {
     this.$archivosInictiales?.subscribe(archivosIniciales => this.onArchivosInicialesLoaded(archivosIniciales));
     this.$onNuevoArchivoCreado?.subscribe(nuevaCarpeta => this.onNuevaArchivoCreado(nuevaCarpeta));
     this.$onNuevaCarpetaEntrada?.subscribe(nuevaRutaItem => this.onNuevaCarpetaEntrada(nuevaRutaItem));
-    this.$onArchivoReemplazado?.subscribe(archivoReemplazdado => this.onArchivoReemplazado(archivoReemplazdado))
+    this.$onArchivoReemplazado?.subscribe(archivoReemplazdado => this.onArchivoReemplazado(archivoReemplazdado));
+    this.$onArchivoBorrado?.subscribe(archivoBorradoId => this.onArchivoBorradoId(archivoBorradoId))
+  }
+
+  private onArchivoBorradoId(archivoBorradoId: string): void {
+    this.getArchivosActuales().splice(
+      this.getArchivosActuales().findIndex(it => it.archivoId == archivoBorradoId), 1
+    )
   }
 
   private onArchivoReemplazado(nuevoArchivoReemplazdo: Archivo): void {

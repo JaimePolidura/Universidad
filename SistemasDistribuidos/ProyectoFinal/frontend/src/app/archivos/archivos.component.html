@@ -14,13 +14,15 @@
                                [$archivosInictiales]="$archivosInictiales"
                                [$onArchivoReemplazado]="$onArchivoReemplazado"
                                [$onNuevaCarpetaEntrada]="$nuevaCarpetaEntrada"
-                               [$onNuevoArchivoCreado]="$nuevoArchivoCreado">
+                               [$onNuevoArchivoCreado]="$nuevoArchivoCreado"
+                               [$onArchivoBorrado]="$archivoBorrado">
   </app-archivo-ruta-navegacion>
   <hr style="width: 100%">
   <app-loading-spinner [centered]="true" [$loading]="$loading"></app-loading-spinner>
 
   <div class="archivos">
     <app-archivo *ngFor="let archivo of archivos"
+                 (archivoMarcadoParaBorrar)="onArchivoMarcadoParaBorrar($event)"
                  (nuevoNombreSeleccionado)="onNuevoNombreSeleccionado($event)"
                  (carpetaSeleccionada)="onCarpetaSeleccionada($event)"
                  [archivo]="archivo"></app-archivo>

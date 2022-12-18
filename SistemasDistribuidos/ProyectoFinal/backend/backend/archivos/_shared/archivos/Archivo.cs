@@ -2,7 +2,7 @@
     public class Archivo {
         public Guid archivoId { get; set; }
         public Guid espacioTrabajoId { get; set; }
-        public bool borrado { get; }
+        public bool borrado { get; set;  }
         public DateTime fechaCreacion { get; set; }
         public DateTime? fechaBorrado { get; set; }
         public Guid usuarioIdBorrado { get; set; }

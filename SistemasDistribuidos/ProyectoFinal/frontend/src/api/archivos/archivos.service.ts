@@ -20,16 +20,24 @@ export class ArchivosService {
           ${archivoPadreId == null ? '' : '&archivoPadreId=' + archivoPadreId}`);
   }
 
+  public borrar(archivoId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.backendRoutes.USING}/archivos/borrar?archivoId=${archivoId}`);
+  }
+
+  public renombrar(req: RenombrarArchivoRequest): Observable<Archivo> {
+    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/renombrar`, req);
+  }
+
+  public nuevaCarpeta(req: NuevaCarpetaRequest): Observable<Archivo> {
+    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/nuevacarpeta`, req);
+  }
+
   public reemplazarArchivo(file: File, archivoId: string): Observable<Archivo> {
     const formData = new FormData();
     formData.append("blob", file);
     formData.append("archivoId", archivoId);
 
     return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/reemplazararchivo`, formData);
-  }
-
-  public renombrar(req: RenombrarArchivoRequest): Observable<Archivo> {
-    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/renombrar`, req);
   }
 
   public subirNuevoArchivo(file: File, espacioTrabajoId: string, archivoPadreId?: string): Observable<Archivo> {
@@ -39,9 +47,5 @@ export class ArchivosService {
     if(archivoPadreId != undefined) formData.append("archivoPadreId", archivoPadreId);
 
     return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/nuevoarchivo`, formData);
-  }
-
-  public nuevaCarpeta(req: NuevaCarpetaRequest): Observable<Archivo> {
-    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/nuevacarpeta`, req);
   }
 }
