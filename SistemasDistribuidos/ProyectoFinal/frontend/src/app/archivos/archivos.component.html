@@ -21,6 +21,7 @@
 
   <div class="archivos">
     <app-archivo *ngFor="let archivo of archivos"
+                 (nuevoNombreSeleccionado)="onNuevoNombreSeleccionado($event)"
                  (carpetaSeleccionada)="onCarpetaSeleccionada($event)"
                  [archivo]="archivo"></app-archivo>
   </div>

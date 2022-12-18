@@ -4,6 +4,7 @@ import {BackendRoutesService} from "../backend-routes.service";
 import {Observable} from "rxjs";
 import {Archivo} from "./archivo";
 import {NuevaCarpetaRequest} from "./api/nueva-carpeta-request";
+import {RenombrarArchivoRequest} from "./api/renombrar-archivo-request";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class ArchivosService {
     formData.append("archivoId", archivoId);
 
     return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/reemplazararchivo`, formData);
+  }
+
+  public renombrar(req: RenombrarArchivoRequest): Observable<Archivo> {
+    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/renombrar`, req);
   }
 
   public subirNuevoArchivo(file: File, espacioTrabajoId: string, archivoPadreId?: string): Observable<Archivo> {

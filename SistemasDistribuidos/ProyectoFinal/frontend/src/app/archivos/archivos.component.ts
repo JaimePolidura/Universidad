@@ -13,6 +13,7 @@ import {
 import {BlobsService} from "../../api/blobs/blobs.service";
 import {archivoComparator} from "./archivo/archivo-comparator";
 import {ConfirmationModalComponent} from "../_shared/components/confirmation-modal/confirmation-modal.component";
+import {NuevoNombreSeleccionado} from "./archivo/archivo.component";
 
 @Component({
   selector: 'app-archivos',
@@ -103,6 +104,19 @@ export class ArchivosComponent implements OnInit {
       const archivoAReemplazar = this.archivos.filter(it => it.nombre.toLowerCase() == file.name.toLowerCase())[0];
 
       this.reemplazarArchivo(file, archivoAReemplazar);
+    });
+  }
+
+  onNuevoNombreSeleccionado($event: NuevoNombreSeleccionado): void {
+    const archivoConMismoNombre = this.archivos.filter(it => it.nombre.toLowerCase() == $event.nuevoNombre.toLowerCase()).length > 0;
+    if(archivoConMismoNombre){
+      this.toast.error('Ya existe un archivo en el mismo nombre');
+      return;
+    }
+
+    this.archivosService.renombrar({archivoId: $event.archivo.archivoId, nuevoNombre: $event.nuevoNombre}).subscribe(nuevoArchivo => {
+      const archivoRenombrar = this.archivos.filter(it => it.archivoId == $event.archivo.archivoId)[0];
+      archivoRenombrar.nombre = nuevoArchivo.nombre;
     });
   }
 

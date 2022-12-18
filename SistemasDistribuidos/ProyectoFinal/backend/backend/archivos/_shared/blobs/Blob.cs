@@ -6,7 +6,7 @@
         public DateTime fechaCreacion { get; }
         public Guid usuarioIdCreacion { get; }
         public string formato { get; }
-        public string nombre { get; }
+        public string nombre { get; set; }
 
         public Blob(Guid blobId, Guid archivoId, byte[] binario, DateTime fechaCreacion, Guid usuarioIdCreacion, string formato, string nombre) {
             this.blobId = blobId;

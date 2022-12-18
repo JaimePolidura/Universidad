@@ -40,6 +40,7 @@ builder.Services.AddSingleton<DescargarArchivoUseCase>();
 builder.Services.AddSingleton<LoginUseCase>();
 builder.Services.AddSingleton<SubirNuevoArchivoUseCase>();
 builder.Services.AddSingleton<ReemplazarArchivoUseCase>();
+builder.Services.AddSingleton<RenombrarArchivoUseCase>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 builder.Services.AddEndpointsApiExplorer();
