@@ -1,22 +1,25 @@
 ﻿using backend._shared.expceptions;
+using backend.archivos._comun.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
 
 namespace backend.archivos {
     public class DescargarArchivoUseCase {
         private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
-        private readonly ArchivosRepository archivosRepository;
         private readonly BlobRepository blobRepository;
+        private readonly ArchivoFinder archivoFinder;
 
-        public DescargarArchivoUseCase (EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository, 
-                BlobRepository blobRepository) {
+        public DescargarArchivoUseCase (EspacioTrabajoPermisosService espacioTrabajoPermisosService, BlobRepository blobRepository, 
+            ArchivoFinder archivoFinder) {
             this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
-            this.archivosRepository = archivosRepository;
             this.blobRepository = blobRepository;
+            this.archivoFinder = archivoFinder;
         }
           
         public async Task<Blob> descargar(Guid archivoId, Guid usuarioId, Guid blobId, bool ultimaVersion = true) {
-            this.ensureArchivoExistsAndOwnsArchivo(archivoId, usuarioId);
+            Archivo archivo = await this.archivoFinder.findByIdOrThrow(archivoId);
+            this.ensureArchivoIsNotCarpeta(archivo);
+            this.espacioTrabajoPermisosService.puedeLeerOrThrow(archivo.espacioTrabajoId, usuarioId);
 
             if (ultimaVersion) {
                 return await this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
@@ -37,16 +40,9 @@ namespace backend.archivos {
             }
         }
 
-        private async void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {
-            Archivo archivo = await this.archivosRepository.findById(archivoId, false);
-            if (archivo == null) {
-                throw new ResourceNotFound("Archivo no encontrado");
-            }
+        private void ensureArchivoIsNotCarpeta(Archivo archivo) {
             if(archivo.esCarpeta) {
                 throw new IllegalState("No se pueden descargar carpetas");
-            }
-            if (!await this.espacioTrabajoPermisosService.puedeLeer(archivo.espacioTrabajoId, usuarioId)) {
-                throw new NotTheOwner("Este espacio trabajo no te corresponde");
             }
         }
     }

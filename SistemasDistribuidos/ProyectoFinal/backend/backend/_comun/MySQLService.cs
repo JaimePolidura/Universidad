@@ -40,15 +40,15 @@ namespace backend._shared {
         public async Task<List<T>> sendSelectList<T>(string query, Func<MySqlDataReader, T> objectConstructor) {
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = (MySqlDataReader) await command.ExecuteReaderAsync();
-            List<T> result = new List<T>();
+            List<T> toReturn = new List<T>();
 
             while(reader.Read()) {
-                result.Add(objectConstructor.Invoke(reader));
+                toReturn.Add(objectConstructor.Invoke(reader));
             }
 
             reader.Close();
 
-            return result;
+            return toReturn;
         }
 
         public async Task<T> sendSelectOneObject<T>(string query, Func<MySqlDataReader, T> objectConstructor) {
@@ -57,11 +57,11 @@ namespace backend._shared {
 
             reader.Read();
 
-            T constructedObject = objectConstructor.Invoke(reader);
+            T toReturn = objectConstructor.Invoke(reader);
 
             reader.Close();
 
-            return constructedObject;
+            return toReturn;
         }
         
         public string dateTimeToMySQLFormat(DateTime? dateTime) {

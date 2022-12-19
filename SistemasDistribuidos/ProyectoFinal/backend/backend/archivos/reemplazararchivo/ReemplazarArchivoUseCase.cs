@@ -1,5 +1,6 @@
 ﻿using backend._shared;
 using backend._shared.expceptions;
+using backend.archivos._comun.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
 
@@ -8,17 +9,19 @@ namespace backend.archivos.reemplazararchivo {
         private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
         private readonly ArchivosRepository archivosRepository;
         private readonly BlobRepository blobRepository;
+        private readonly ArchivoFinder archivoFinder;
 
         public ReemplazarArchivoUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository, 
-            BlobRepository blobRepository) {
+            BlobRepository blobRepository, ArchivoFinder archivoFinder) {
            this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
            this.archivosRepository = archivosRepository;
            this.blobRepository = blobRepository;
+           this.archivoFinder = archivoFinder;
         }
 
         public async Task<Archivo> reemplazar(ReemplazarArchivoRequest request, Guid usuarioId) {
-            Archivo archivo = await this.ensureArchivoExists(request.archivoId);
-            this.ensureHasPermissionsInEspacioTrabajo(archivo.espacioTrabajoId, usuarioId);
+            Archivo archivo = await this.archivoFinder.findByIdOrThrow(request.archivoId);
+            this.espacioTrabajoPermisosService.puedeEsciribirOrThrow(archivo.espacioTrabajoId, usuarioId);
 
             Blob blobNuevoArchivo = new Blob(
                 blobId: Guid.NewGuid(),
@@ -35,21 +38,6 @@ namespace backend.archivos.reemplazararchivo {
             this.archivosRepository.save(archivo);
             this.blobRepository.save(blobNuevoArchivo);
             
-            return archivo;
-        }
-            
-        private async void ensureHasPermissionsInEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            if (!await this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId)) {
-                throw new NotTheOwner("Espacio trabajo no encontrado / No tienes permisos");
-            }
-        }
-
-        private async Task<Archivo> ensureArchivoExists(Guid archivoId) {
-            Archivo archivo = await this.archivosRepository.findById(archivoId, false);
-            if (archivo == null) {
-                throw new ResourceNotFound("Archivo no encontrado");
-            }
-
             return archivo;
         }
     }

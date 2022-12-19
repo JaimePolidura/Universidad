@@ -16,8 +16,8 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public Archivo nuevaCarpeta(NuevaCarpetaRequest request) {
-            return this.nuevaCarpetaUsecase.nuevacarpeta(request, getLoggedUserId());
+        public async Task<Archivo> nuevaCarpeta(NuevaCarpetaRequest request) {
+            return await this.nuevaCarpetaUsecase.nuevacarpeta(request, getLoggedUserId());
         }
     }
 }

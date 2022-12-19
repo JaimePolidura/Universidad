@@ -1,4 +1,4 @@
-﻿using backend._shared.expceptions;
+﻿using backend.archivos._comun.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
 
@@ -7,38 +7,24 @@ namespace backend.archivos {
         private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
         private readonly ArchivosRepository archivosRepository;
         private readonly BlobRepository blobRepository;
+        private readonly ArchivoFinder archivoFinder;
 
         public VerVersionesUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository, 
-            BlobRepository blobRepository) {
+            BlobRepository blobRepository, ArchivoFinder archivoFinder) {
             this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
             this.archivosRepository = archivosRepository;
             this.blobRepository = blobRepository;
+            this.archivoFinder = archivoFinder;
         }
 
         public async Task<List<VersionArchivoBlob>> ver(Guid arhivoId, Guid ususarioId) {
-            Archivo archivo = await this.EnsureUsuariosOwnsArchivo(arhivoId);
-            this.ensureHasPermissionesInEspacioTrabajo(archivo.espacioTrabajoId, ususarioId);
-
+            Archivo archivo = await this.archivoFinder.findByIdOrThrow(arhivoId);
+            this.espacioTrabajoPermisosService.puedeLeerOrThrow(archivo.espacioTrabajoId, ususarioId);
             List<Blob> blobsArchivo = await this.blobRepository.findByArchivoId(arhivoId);
 
             return blobsArchivo
                 .Select(it => new VersionArchivoBlob(it.blobId, it.archivoId, it.fechaCreacion, it.usuarioIdCreacion, it.formato, it.nombre))
                 .ToList();
-        }
-
-        private async void ensureHasPermissionesInEspacioTrabajo(Guid espacioTrabajoId, Guid ususarioId) {
-            if (!await this.espacioTrabajoPermisosService.puedeLeer(espacioTrabajoId, ususarioId)) {
-                throw new NotTheOwner("No tienes permisos");
-            }
-        }
-
-        private async Task<Archivo> EnsureUsuariosOwnsArchivo(Guid arhivoId) {
-            Archivo archivo = await this.archivosRepository.findById(arhivoId, false);
-            if (archivo == null) {
-                throw new ResourceNotFound("No se ha encontrado el archivo");
-            }
-
-            return archivo;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace backend.archivos {
 
         public Archivo subirNuevoArchivo(SubirNuevoArchivoRequest request, Guid usuarioId) {
             this.ensureArchivoPadreExists(request);
-            this.ensureHasPermissionsInEspacioTrabajo(request, usuarioId);
+            this.espacioTrabajoPermisosService.puedeEsciribirOrThrow(request.espacioTrabajoId, usuarioId);
 
             Guid archivoId = Guid.NewGuid();
             DateTime now = DateTime.Now;
@@ -50,12 +50,6 @@ namespace backend.archivos {
             this.blobRepository.save(blob);
 
             return archivo;
-        }
-           
-        private async void ensureHasPermissionsInEspacioTrabajo(SubirNuevoArchivoRequest request, Guid usuarioId) {
-            if (!await this.espacioTrabajoPermisosService.puedeEscribir(request.espacioTrabajoId, usuarioId)) {
-                throw new NotTheOwner("No tienes permisos para escribir en el espacio de trabajo");
-            }
         }
 
         private async void ensureArchivoPadreExists(SubirNuevoArchivoRequest request) {

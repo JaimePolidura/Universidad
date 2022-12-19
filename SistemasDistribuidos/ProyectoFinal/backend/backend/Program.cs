@@ -2,6 +2,7 @@ using backend;
 using backend._shared;
 using backend._shared.expceptions;
 using backend.archivos;
+using backend.archivos._comun.archivos;
 using backend.archivos._shared.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
@@ -18,7 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 //Comun
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ExceptionInterceptorController>();
-builder.Services.AddSingleton<HttpRequestTokenFilter>();
 builder.Services.AddSingleton<MySQLService>();
 
 //Usuarios
@@ -47,6 +47,7 @@ builder.Services.AddSingleton<RenombrarArchivoUseCase>();
 builder.Services.AddSingleton<BorrarArchivoUseCase>();
 builder.Services.AddSingleton<VerVersionesUseCase>();
 builder.Services.AddSingleton<RestaurarVersionUseCase>();
+builder.Services.AddSingleton<ArchivoFinder>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 builder.Services.AddEndpointsApiExplorer();

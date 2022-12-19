@@ -1,4 +1,5 @@
 ﻿using backend._shared.expceptions;
+using backend.archivos._comun.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
 using backend.archivos.restaurarversion;
@@ -6,19 +7,19 @@ using backend.archivos.restaurarversion;
 namespace backend.archivos {
     public class RestaurarVersionUseCase {
         private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
-        private readonly ArchivosRepository archivosRepository;
         private readonly BlobRepository blobRepository;
+        private readonly ArchivoFinder archivoFinder;
 
-        public RestaurarVersionUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository, 
-            BlobRepository blobRepository) {
+        public RestaurarVersionUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, BlobRepository blobRepository, 
+            ArchivoFinder archivoFinder) {
             this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
-            this.archivosRepository = archivosRepository;
             this.blobRepository = blobRepository;
+            this.archivoFinder = archivoFinder;
         }
 
         public async Task<VersionArchivoBlob> restaurar(RestaurarVersionRequest request, Guid usuarioId) {
-            Archivo archivo = await this.archivosRepository.findById(request.archivoId, false);
-            this.ensureArchivoExistsAndHasPermissions(archivo, usuarioId);
+            Archivo archivo = await this.archivoFinder.findByIdOrThrow(request.archivoId);
+            this.espacioTrabajoPermisosService.puedeEsciribirOrThrow(archivo.espacioTrabajoId, usuarioId);
             Blob blobARestaurar = await this.blobRepository.findByBlobId(request.blobIdRestaurar);
             this.ensureBlobExistsAndBelongsToArchivo(blobARestaurar, request.archivoId);
 
@@ -37,15 +38,6 @@ namespace backend.archivos {
             }
             if (!blobARestaurar.archivoId.Equals(archivoId)) {
                 throw new NotTheOwner("Archovo incorrecto");
-            }
-        }
-
-        private async void ensureArchivoExistsAndHasPermissions(Archivo archivo, Guid usuarioId) {
-            if (archivo == null) {
-                throw new ResourceNotFound("No se encuentra el archivo");
-            }
-            if (!await this.espacioTrabajoPermisosService.puedeEscribir(archivo.espacioTrabajoId, usuarioId)) {
-                throw new NotTheOwner("No tienes permisos");
             }
         }
     }

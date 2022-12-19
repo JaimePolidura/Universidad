@@ -1,4 +1,5 @@
 ﻿using backend._shared.expceptions;
+using backend.archivos._comun.archivos;
 using backend.archivos._shared.espaciotrabajos;
 using backend.archivos.nuevacarpeta;
 
@@ -6,15 +7,18 @@ namespace backend.archivos {
     public class NuevaCarpetaUseCase {
         private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
         private readonly ArchivosRepository archivosRepository;
+        private readonly ArchivoFinder archivoFinder;
 
-        public NuevaCarpetaUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository) {
+        public NuevaCarpetaUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository, 
+            ArchivoFinder archivoFinder) {
             this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
             this.archivosRepository = archivosRepository;
+            this.archivoFinder = archivoFinder;
         }
 
-        public Archivo nuevacarpeta(NuevaCarpetaRequest request, Guid usuarioId) {
-            this.ensureOwnsEspacioTrabajo(request.espacioTrabajoId, usuarioId);
-            this.ensureArchivoPadreExists(request);
+        public async Task<Archivo> nuevacarpeta(NuevaCarpetaRequest request, Guid usuarioId) {
+            this.espacioTrabajoPermisosService.puedeEsciribirOrThrow(request.espacioTrabajoId, usuarioId);
+            if(request.archivoPadreId != Guid.Empty) await this.archivoFinder.findByIdOrThrow(request.archivoPadreId); //No se crea en el root
             this.ensureOtherCarpetasHasNoSameName(request);
 
             Archivo archivoCarpeta = new Archivo(
@@ -49,22 +53,6 @@ namespace backend.archivos {
             return request.archivoPadreId != Guid.Empty ?
                 await this.archivosRepository.findChildrenByParentId(request.archivoPadreId, request.espacioTrabajoId, false) :
                 await this.archivosRepository.findRootByEspacioTrabajoId(request.espacioTrabajoId, false);
-        }
-
-        private async void ensureArchivoPadreExists(NuevaCarpetaRequest request) {
-            if (request.archivoPadreId == Guid.Empty)
-                return;
-
-            Archivo archivo = await this.archivosRepository.findById(request.archivoPadreId, request.espacioTrabajoId, false);
-            if (archivo == null) {
-                throw new ResourceNotFound("No se ha encontrado el archivo de trabajo para crear la carpeta");
-            }
-        }
-        
-        private async void ensureOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            if (!await this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId) ) {
-                throw new NotTheOwner("Ese espacio de trabajo no existe / No tienes permisos");
-            }
         }
     }
 }
