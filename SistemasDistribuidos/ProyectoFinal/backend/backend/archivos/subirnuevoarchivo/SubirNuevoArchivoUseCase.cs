@@ -58,12 +58,12 @@ namespace backend.archivos {
             }
         }
 
-        private void ensureArchivoPadreExists(SubirNuevoArchivoRequest request) {
+        private async void ensureArchivoPadreExists(SubirNuevoArchivoRequest request) {
             if (request.archivoPadreId == Guid.Empty) {
                 return; //Subir al principio
             }
 
-            Archivo archivo = this.archivosRepository.findById(request.archivoPadreId, false);
+            Archivo archivo = await this.archivosRepository.findById(request.archivoPadreId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("Archivo no encontrado");
             }

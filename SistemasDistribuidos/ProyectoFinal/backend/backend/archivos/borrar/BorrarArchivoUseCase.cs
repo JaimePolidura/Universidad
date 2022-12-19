@@ -13,8 +13,8 @@ namespace backend {
             this.archivosRepository = archivosRepository;
         }
 
-        public void borrar(Guid archivoId, Guid usuarioId) {
-            Archivo archivo = this.ensureArchivoExists(archivoId);
+        public async void borrar(Guid archivoId, Guid usuarioId) {
+            Archivo archivo = await this.ensureArchivoExists(archivoId);
             this.ensureHasPermissionsInEspacioTrabajo(archivo.espacioTrabajoId, usuarioId);
 
             this.setArchivoBorradAndSave(archivo, usuarioId);
@@ -24,8 +24,8 @@ namespace backend {
             }
         }
 
-        private void borrarSubArchivos(Archivo archivoPadre, Guid usuarioId) {
-            Queue<Archivo> archivosPendientesBorrar = new Queue<Archivo>(this.findChildren(archivoPadre));;
+        private async void borrarSubArchivos(Archivo archivoPadre, Guid usuarioId) {
+            Queue<Archivo> archivosPendientesBorrar = new Queue<Archivo>(await this.findChildren(archivoPadre));;
 
             while(archivosPendientesBorrar.Count > 0) {
                 Archivo archivoABorrar = archivosPendientesBorrar.Dequeue();
@@ -33,13 +33,13 @@ namespace backend {
                 this.setArchivoBorradAndSave(archivoABorrar, usuarioId);
 
                 if (archivoABorrar.esCarpeta) {
-                    archivosPendientesBorrar = archivosPendientesBorrar.Concat(this.findChildren(archivoABorrar)).ToQueue();
+                    archivosPendientesBorrar = archivosPendientesBorrar.Concat(await this.findChildren(archivoABorrar)).ToQueue();
                 }
             }
         }
 
-        private List<Archivo> findChildren(Archivo archivo) {
-            return this.archivosRepository.findChildrenByParentId(archivo.archivoId, archivo.espacioTrabajoId, false);
+        private async Task<List<Archivo>> findChildren(Archivo archivo) {
+            return await this.archivosRepository.findChildrenByParentId(archivo.archivoId, archivo.espacioTrabajoId, false);
         }
 
         private void setArchivoBorradAndSave(Archivo archivo, Guid usuarioId) {
@@ -56,8 +56,8 @@ namespace backend {
             }
         }
 
-        private Archivo ensureArchivoExists(Guid archivoId) {
-            Archivo archivo = this.archivosRepository.findById(archivoId, false);
+        private async Task<Archivo> ensureArchivoExists(Guid archivoId) {
+            Archivo archivo = await this.archivosRepository.findById(archivoId, false);
 
             if (archivo == null) {
                 throw new ResourceNotFound("Archivo no encontrado");

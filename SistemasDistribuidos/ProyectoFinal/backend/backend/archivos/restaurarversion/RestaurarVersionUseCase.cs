@@ -17,7 +17,7 @@ namespace backend.archivos {
         }
 
         public async Task<VersionArchivoBlob> restaurar(RestaurarVersionRequest request, Guid usuarioId) {
-            Archivo archivo = this.archivosRepository.findById(request.archivoId, false);
+            Archivo archivo = await this.archivosRepository.findById(request.archivoId, false);
             this.ensureArchivoExistsAndHasPermissions(archivo, usuarioId);
             Blob blobARestaurar = await this.blobRepository.findByBlobId(request.blobIdRestaurar);
             this.ensureBlobExistsAndBelongsToArchivo(blobARestaurar, request.archivoId);

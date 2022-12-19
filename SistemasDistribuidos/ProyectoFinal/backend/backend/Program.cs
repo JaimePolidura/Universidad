@@ -2,6 +2,7 @@ using backend;
 using backend._shared;
 using backend._shared.expceptions;
 using backend.archivos;
+using backend.archivos._shared.archivos;
 using backend.archivos._shared.blobs;
 using backend.archivos._shared.espaciotrabajos;
 using backend.archivos.reemplazararchivo;
@@ -30,7 +31,7 @@ builder.Services.AddSingleton<VerEspacioTrabajosUseCase>();
 builder.Services.AddSingleton<EspacioTrabajoPermisosService>();
 
 //Archivos
-builder.Services.AddSingleton<ArchivosRepository, InMemoryArhivosRepository>();
+builder.Services.AddSingleton<ArchivosRepository, MySQLArchivoRepository>();
 
 //Blobs
 builder.Services.AddSingleton<BlobRepository, MySQLBlobRepository>();

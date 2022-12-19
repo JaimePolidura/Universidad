@@ -16,8 +16,8 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public List<Archivo> Get([FromQuery] Guid archivoPadreId, [FromQuery] Guid espacioTrabajoId, [FromQuery] bool incluirBorrados = false) {
-            return this.verArchivosUseCase.verArchivos(archivoPadreId, espacioTrabajoId, getLoggedUserId(), incluirBorrados);
+        public async Task<List<Archivo>> Get([FromQuery] Guid archivoPadreId, [FromQuery] Guid espacioTrabajoId, [FromQuery] bool incluirBorrados = false) {
+            return await this.verArchivosUseCase.verArchivos(archivoPadreId, espacioTrabajoId, getLoggedUserId(), incluirBorrados);
         }
     }
 }

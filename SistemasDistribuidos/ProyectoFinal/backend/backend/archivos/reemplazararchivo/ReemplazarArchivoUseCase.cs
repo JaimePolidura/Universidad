@@ -16,8 +16,8 @@ namespace backend.archivos.reemplazararchivo {
            this.blobRepository = blobRepository;
         }
 
-        public Archivo reemplazar(ReemplazarArchivoRequest request, Guid usuarioId) {
-            Archivo archivo = this.ensureArchivoExists(request.archivoId);
+        public async Task<Archivo> reemplazar(ReemplazarArchivoRequest request, Guid usuarioId) {
+            Archivo archivo = await this.ensureArchivoExists(request.archivoId);
             this.ensureHasPermissionsInEspacioTrabajo(archivo.espacioTrabajoId, usuarioId);
 
             Blob blobNuevoArchivo = new Blob(
@@ -44,8 +44,8 @@ namespace backend.archivos.reemplazararchivo {
             }
         }
 
-        private Archivo ensureArchivoExists(Guid archivoId) {
-            Archivo archivo = this.archivosRepository.findById(archivoId, false);
+        private async Task<Archivo> ensureArchivoExists(Guid archivoId) {
+            Archivo archivo = await this.archivosRepository.findById(archivoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("Archivo no encontrado");
             }

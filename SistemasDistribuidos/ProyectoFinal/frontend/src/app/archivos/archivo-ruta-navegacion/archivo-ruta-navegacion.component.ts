@@ -74,6 +74,9 @@ export class ArchivoRutaNavegacionComponent implements OnInit {
   }
 
   public navegarHacia(itemRuta: ItemRutaNavegacion, index: number): void {
+    if(index + 1 == this.rutaActual.length) //Seleccionada ruta actual
+      return;
+
     this.rutaActual.splice(index + 1, this.rutaActual.length - (index + 1));
     this.rutaNavegada.next(this.rutaActual[this.rutaActual.length - 1]);
   }

@@ -4,10 +4,21 @@ using System.Data.Common;
 namespace backend._shared {
     public class MySQLService {
         private MySqlConnection connection;
-        
+        private readonly IConfiguration configuration;
+
+        public MySQLService(IConfiguration configuration) {
+            this.configuration = configuration;
+        }
+
         public Task startConnection() {
+            string serverHost = this.configuration["db:host"];
+            string port = this.configuration["db:port"];
+            string user = this.configuration["db:user"];
+            string password = this.configuration["db:password"];
+            string dbName = this.configuration["db:name"];
+
             this.connection = new MySqlConnection(
-                $"server=localhost;port=3306;userid=root;password=;database=archivos"
+                $"server={serverHost};port={port};userid={user};password={password};database={dbName}"
             );
 
             return this.connection.OpenAsync();

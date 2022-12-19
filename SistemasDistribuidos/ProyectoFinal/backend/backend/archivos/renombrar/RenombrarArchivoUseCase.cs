@@ -16,7 +16,7 @@ namespace backend.archivos {
         }
         
         public async Task<Archivo> renombrar(RenombrarArchivoRequest request, Guid usuarioId) {
-            Archivo archivo = this.ensureArchivoExists(request.archivoId);
+            Archivo archivo = await this.ensureArchivoExists(request.archivoId);
             this.ensureHasPermissionsInEspacioTrabajo(archivo.espacioTrabajoId, usuarioId);
             this.ensureNombreValid(request.nuevoNombre);
 
@@ -44,8 +44,8 @@ namespace backend.archivos {
             }
         }
 
-        private Archivo ensureArchivoExists(Guid archivoId) {
-            Archivo archivo = this.archivosRepository.findById(archivoId, false);
+        private async Task<Archivo> ensureArchivoExists(Guid archivoId) {
+            Archivo archivo = await this.archivosRepository.findById(archivoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("No se encuentra el archivo");
             }

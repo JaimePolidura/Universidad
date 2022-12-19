@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.archivos {
     [ApiController]
-    [Route("archivos/reemplazararchivo")]
+    [Route("archivos/reemplazar")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ReemplazarArchivoController : ApplicationController {
         private readonly ReemplazarArchivoUseCase reemplazarArchivoUseCase;
@@ -16,8 +16,8 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public Archivo reemplazar([FromForm] ReemplazarArchivoRequest request) {
-            return this.reemplazarArchivoUseCase.reemplazar(request, getLoggedUserId());
+        public async Task<Archivo> reemplazar([FromForm] ReemplazarArchivoRequest request) {
+            return await this.reemplazarArchivoUseCase.reemplazar(request, getLoggedUserId());
         }
     }
 }

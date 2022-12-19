@@ -38,7 +38,7 @@ namespace backend.archivos {
         }
 
         private async void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {
-            Archivo archivo = this.archivosRepository.findById(archivoId, false);
+            Archivo archivo = await this.archivosRepository.findById(archivoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("Archivo no encontrado");
             }

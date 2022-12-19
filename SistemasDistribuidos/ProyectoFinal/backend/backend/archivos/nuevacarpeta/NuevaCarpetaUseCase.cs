@@ -35,8 +35,8 @@ namespace backend.archivos {
            return archivoCarpeta;
         }
 
-        private void ensureOtherCarpetasHasNoSameName(NuevaCarpetaRequest request) {
-            List<Archivo> contentPlaceToAddCarpeta = this.getContents(request);
+        private async void ensureOtherCarpetasHasNoSameName(NuevaCarpetaRequest request) {
+            List<Archivo> contentPlaceToAddCarpeta = await this.getContents(request);
 
             bool exsits = contentPlaceToAddCarpeta.Where(it => it.esCarpeta && it.nombre.Equals(request.nombreCarpeta)).Count() > 0;
 
@@ -45,17 +45,17 @@ namespace backend.archivos {
             }
         }
 
-        private List<Archivo> getContents(NuevaCarpetaRequest request) {
+        private async Task<List<Archivo>> getContents(NuevaCarpetaRequest request) {
             return request.archivoPadreId != Guid.Empty ?
-                this.archivosRepository.findChildrenByParentId(request.archivoPadreId, request.espacioTrabajoId, false) :
-                this.archivosRepository.findRootByEspacioTrabajoId(request.espacioTrabajoId, false);
+                await this.archivosRepository.findChildrenByParentId(request.archivoPadreId, request.espacioTrabajoId, false) :
+                await this.archivosRepository.findRootByEspacioTrabajoId(request.espacioTrabajoId, false);
         }
 
-        private void ensureArchivoPadreExists(NuevaCarpetaRequest request) {
+        private async void ensureArchivoPadreExists(NuevaCarpetaRequest request) {
             if (request.archivoPadreId == Guid.Empty)
                 return;
 
-            Archivo archivo = this.archivosRepository.findById(request.archivoPadreId, request.espacioTrabajoId, false);
+            Archivo archivo = await this.archivosRepository.findById(request.archivoPadreId, request.espacioTrabajoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("No se ha encontrado el archivo de trabajo para crear la carpeta");
             }

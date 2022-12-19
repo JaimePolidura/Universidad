@@ -11,12 +11,12 @@ namespace backend.archivos {
             this.archivosRepository = archivosRepository;
         }
         
-        public List<Archivo> verArchivos(Guid archivoPadreId, Guid espacioTrabajoId, Guid usuarioId, bool incluirBorrados) {
+        public async Task<List<Archivo>> verArchivos(Guid archivoPadreId, Guid espacioTrabajoId, Guid usuarioId, bool incluirBorrados) {
             this.ensureUserOwnsEspacioTrabajo(espacioTrabajoId, usuarioId);
               
             return archivoPadreId == Guid.Empty ?
-                this.archivosRepository.findRootByEspacioTrabajoId(espacioTrabajoId, incluirBorrados) :
-                this.archivosRepository.findChildrenByParentId(archivoPadreId, espacioTrabajoId, incluirBorrados);
+                await this.archivosRepository.findRootByEspacioTrabajoId(espacioTrabajoId, incluirBorrados) :
+                await this.archivosRepository.findChildrenByParentId(archivoPadreId, espacioTrabajoId, incluirBorrados);
         }
 
         private async void ensureUserOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {

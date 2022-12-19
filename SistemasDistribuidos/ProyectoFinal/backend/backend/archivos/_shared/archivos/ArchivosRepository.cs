@@ -2,12 +2,12 @@
     public interface ArchivosRepository {
         void save(Archivo archivo);
 
-        Archivo findById(Guid archivoId, bool incluirBorrados);
+        Task<Archivo> findById(Guid archivoId, bool incluirBorrados);
 
-        Archivo findById(Guid archivoId, Guid espacioTrabajoId, bool incluirBorrados);
+        Task<Archivo> findById(Guid archivoId, Guid espacioTrabajoId, bool incluirBorrados);
 
-        List<Archivo> findRootByEspacioTrabajoId(Guid espacioTrabajoId, bool incluirBorrados);
+        Task<List<Archivo>> findRootByEspacioTrabajoId(Guid espacioTrabajoId, bool incluirBorrados);
            
-        List<Archivo> findChildrenByParentId(Guid archivoId, Guid espacioTrabajoId, bool incluirBorrados);
+        Task<List<Archivo>> findChildrenByParentId(Guid archivoId, Guid espacioTrabajoId, bool incluirBorrados);
     }
 }

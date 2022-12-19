@@ -16,7 +16,7 @@ namespace backend.archivos {
         }
 
         public async Task<List<VersionArchivoBlob>> ver(Guid arhivoId, Guid ususarioId) {
-            Archivo archivo = this.EnsureUsuariosOwnsArchivo(arhivoId);
+            Archivo archivo = await this.EnsureUsuariosOwnsArchivo(arhivoId);
             this.ensureHasPermissionesInEspacioTrabajo(archivo.espacioTrabajoId, ususarioId);
 
             List<Blob> blobsArchivo = await this.blobRepository.findByArchivoId(arhivoId);
@@ -32,8 +32,8 @@ namespace backend.archivos {
             }
         }
 
-        private Archivo EnsureUsuariosOwnsArchivo(Guid arhivoId) {
-            Archivo archivo = this.archivosRepository.findById(arhivoId, false);
+        private async Task<Archivo> EnsureUsuariosOwnsArchivo(Guid arhivoId) {
+            Archivo archivo = await this.archivosRepository.findById(arhivoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("No se ha encontrado el archivo");
             }

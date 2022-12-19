@@ -47,7 +47,7 @@ export class ArchivosService {
     formData.append("blob", file);
     formData.append("archivoId", archivoId);
 
-    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/reemplazararchivo`, formData);
+    return this.httpClient.post<Archivo>(`${this.backendRoutes.USING}/archivos/reemplazar`, formData);
   }
 
   public subirNuevoArchivo(file: File, espacioTrabajoId: string, archivoPadreId?: string): Observable<Archivo> {
