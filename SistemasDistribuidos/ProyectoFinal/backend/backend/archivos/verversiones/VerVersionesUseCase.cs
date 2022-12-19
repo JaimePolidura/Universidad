@@ -15,19 +15,19 @@ namespace backend.archivos {
             this.blobRepository = blobRepository;
         }
 
-        public List<VersionArchivoBlob> ver(Guid arhivoId, Guid ususarioId) {
+        public async Task<List<VersionArchivoBlob>> ver(Guid arhivoId, Guid ususarioId) {
             Archivo archivo = this.EnsureUsuariosOwnsArchivo(arhivoId);
             this.ensureHasPermissionesInEspacioTrabajo(archivo.espacioTrabajoId, ususarioId);
 
-            List<Blob> blobsArchivo = this.blobRepository.findByArchivoId(arhivoId);
+            List<Blob> blobsArchivo = await this.blobRepository.findByArchivoId(arhivoId);
 
             return blobsArchivo
                 .Select(it => new VersionArchivoBlob(it.blobId, it.archivoId, it.fechaCreacion, it.usuarioIdCreacion, it.formato, it.nombre))
                 .ToList();
         }
 
-        private void ensureHasPermissionesInEspacioTrabajo(Guid espacioTrabajoId, Guid ususarioId) {
-            if (!this.espacioTrabajoPermisosService.puedeLeer(espacioTrabajoId, ususarioId)) {
+        private async void ensureHasPermissionesInEspacioTrabajo(Guid espacioTrabajoId, Guid ususarioId) {
+            if (!await this.espacioTrabajoPermisosService.puedeLeer(espacioTrabajoId, ususarioId)) {
                 throw new NotTheOwner("No tienes permisos");
             }
         }

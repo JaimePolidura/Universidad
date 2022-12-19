@@ -19,8 +19,8 @@ namespace backend.archivos {
                 this.archivosRepository.findChildrenByParentId(archivoPadreId, espacioTrabajoId, incluirBorrados);
         }
 
-        private void ensureUserOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            if(!this.espacioTrabajoPermisosService.puedeLeer(espacioTrabajoId, usuarioId)) {
+        private async void ensureUserOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
+            if(!await this.espacioTrabajoPermisosService.puedeLeer(espacioTrabajoId, usuarioId)) {
                 throw new ResourceNotFound("No se encuentra el espacio de trabajo / No tienes permisos");
             }
         }

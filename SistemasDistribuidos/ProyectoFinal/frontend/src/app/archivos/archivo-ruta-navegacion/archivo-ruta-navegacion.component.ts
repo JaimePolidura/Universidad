@@ -46,9 +46,6 @@ export class ArchivoRutaNavegacionComponent implements OnInit {
         }
       }
     }
-    // this.getArchivosActuales().splice(
-    //   this.getArchivosActuales().findIndex(it => it.archivoId == archivoBorradoId), 1
-    // );
   }
 
   private onArchivoReemplazado(nuevoArchivoReemplazdo: Archivo): void {

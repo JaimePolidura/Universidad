@@ -1,5 +1,6 @@
 ﻿using backend.usuarios._shared;
 using backend.archivos;
+using backend._shared;
 
 namespace backend {
     public class Startup {
@@ -10,8 +11,16 @@ namespace backend {
         public Startup(IServiceProvider serviceProvider) {
             this.serviceProvider = serviceProvider;
         }
-                
-        public void run() {
+               
+        public async void run() {
+            var mysqlService = this.serviceProvider.GetService<MySQLService>();
+            await mysqlService.startConnection();
+
+            mysqlService.sendCommand("DELETE FROM usuarios");
+            mysqlService.sendCommand("DELETE FROM archivos");
+            mysqlService.sendCommand("DELETE FROM blobs");
+            mysqlService.sendCommand("DELETE FROM espaciotrabajos");
+
             var usuariosRepository = this.serviceProvider.GetService<UsuariosRepository>();
             usuariosRepository.save(new Usuario(USUARIO_ID_DEFAULT, "jaime", "123"));
 

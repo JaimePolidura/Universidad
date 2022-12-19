@@ -1,4 +1,5 @@
 using backend;
+using backend._shared;
 using backend._shared.expceptions;
 using backend.archivos;
 using backend.archivos._shared.blobs;
@@ -17,13 +18,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<ExceptionInterceptorController>();
 builder.Services.AddSingleton<HttpRequestTokenFilter>();
+builder.Services.AddSingleton<MySQLService>();
 
 //Usuarios
 builder.Services.AddSingleton<AuthenticationTokenService>();
-builder.Services.AddSingleton<UsuariosRepository, InMemoryUsuariosRepository>();
+builder.Services.AddSingleton<UsuariosRepository, MySQLUsuariosRepository>();
 
 //EspacioTrabajos
-builder.Services.AddSingleton<EspacioTrabajoRepositorio, InMemoryEspacioTrabajoRepositorio>();
+builder.Services.AddSingleton<EspacioTrabajoRepositorio, MySQLEspacioTrabajoRepository>();
 builder.Services.AddSingleton<VerEspacioTrabajosUseCase>();
 builder.Services.AddSingleton<EspacioTrabajoPermisosService>();
 
@@ -31,7 +33,7 @@ builder.Services.AddSingleton<EspacioTrabajoPermisosService>();
 builder.Services.AddSingleton<ArchivosRepository, InMemoryArhivosRepository>();
 
 //Blobs
-builder.Services.AddSingleton<BlobRepository, InMemoryBlobRepository>();
+builder.Services.AddSingleton<BlobRepository, MySQLBlobRepository>();
 
 //Casos de uso
 builder.Services.AddSingleton<VerArchivosUseCase>();

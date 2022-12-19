@@ -14,8 +14,8 @@ namespace backend.archivos {
             this.archivosRepository = archivosRepository;
             this.blobRepository = blobRepository;
         }
-
-        public Archivo renombrar(RenombrarArchivoRequest request, Guid usuarioId) {
+        
+        public async Task<Archivo> renombrar(RenombrarArchivoRequest request, Guid usuarioId) {
             Archivo archivo = this.ensureArchivoExists(request.archivoId);
             this.ensureHasPermissionsInEspacioTrabajo(archivo.espacioTrabajoId, usuarioId);
             this.ensureNombreValid(request.nuevoNombre);
@@ -24,7 +24,7 @@ namespace backend.archivos {
             this.archivosRepository.save(archivo);
 
             if (!archivo.esCarpeta) {
-                Blob blob = this.blobRepository.findByArchivoIdAndLastVersion(archivo.archivoId);
+                Blob blob = await this.blobRepository.findByArchivoIdAndLastVersion(archivo.archivoId);
                 blob.nombre = request.nuevoNombre;
                 this.blobRepository.save(blob);
             }
@@ -38,8 +38,8 @@ namespace backend.archivos {
             }
         }
 
-        private void ensureHasPermissionsInEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            if (!this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId)) {
+        private async void ensureHasPermissionsInEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
+            if (!await this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId)) {
                 throw new NotTheOwner("No tienes permisos en ese espacio de trabajo");
             }
         }

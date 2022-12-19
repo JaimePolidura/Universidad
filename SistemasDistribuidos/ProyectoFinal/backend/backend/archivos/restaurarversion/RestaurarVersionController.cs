@@ -17,8 +17,8 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public VersionArchivoBlob restaurar(RestaurarVersionRequest request) {
-            return this.restaurarVersionUseCase.restaurar(request, getLoggedUserId());
+        public async Task<VersionArchivoBlob> restaurar(RestaurarVersionRequest request) {
+            return await this.restaurarVersionUseCase.restaurar(request, getLoggedUserId());
         }
     }
 }

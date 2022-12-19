@@ -11,8 +11,8 @@ namespace backend.usuarios.login {
             this.authenticationTokenService = authenticationTokenService;
         }
         
-        public LoginResponse login(LoginRequest request) {
-            Usuario usuario = this.usuariosRepository.findByNombreAndClaves(request.nombre, request.claves);
+        public async Task<LoginResponse> login(LoginRequest request) {
+            Usuario usuario = await this.usuariosRepository.findByNombreAndClaves(request.nombre, request.claves);
             if (usuario == null)
                 throw new ResourceNotFound("Usuario incorrecto");
 

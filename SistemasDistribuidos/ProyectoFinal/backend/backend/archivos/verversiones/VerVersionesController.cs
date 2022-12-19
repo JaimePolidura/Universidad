@@ -15,8 +15,8 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public List<VersionArchivoBlob> verVersiones([FromQuery] Guid archivoId) {
-            return this.verVersionesUseCase.ver(archivoId, getLoggedUserId());
+        public async Task<List<VersionArchivoBlob>> verVersiones([FromQuery] Guid archivoId) {
+            return await this.verVersionesUseCase.ver(archivoId, getLoggedUserId());
         }
     }
 }

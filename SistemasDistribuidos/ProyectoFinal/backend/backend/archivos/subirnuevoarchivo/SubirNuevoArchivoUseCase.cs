@@ -52,8 +52,8 @@ namespace backend.archivos {
             return archivo;
         }
            
-        private void ensureHasPermissionsInEspacioTrabajo(SubirNuevoArchivoRequest request, Guid usuarioId) {
-            if (!this.espacioTrabajoPermisosService.puedeEscribir(request.espacioTrabajoId, usuarioId)) {
+        private async void ensureHasPermissionsInEspacioTrabajo(SubirNuevoArchivoRequest request, Guid usuarioId) {
+            if (!await this.espacioTrabajoPermisosService.puedeEscribir(request.espacioTrabajoId, usuarioId)) {
                 throw new NotTheOwner("No tienes permisos para escribir en el espacio de trabajo");
             }
         }

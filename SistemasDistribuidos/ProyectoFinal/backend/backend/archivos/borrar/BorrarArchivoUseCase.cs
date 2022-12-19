@@ -50,8 +50,8 @@ namespace backend {
             this.archivosRepository.save(archivo);
         }
 
-        private void ensureHasPermissionsInEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            if (!this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId)) {
+        private async void ensureHasPermissionsInEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
+            if (! await this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId)) {
                 throw new NotTheOwner("No tienes permisos");
             }
         }

@@ -15,7 +15,7 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public List<EspacioTrabajo> ver([FromQuery] bool incluirBorrados = false) {
+        public Task<List<EspacioTrabajo>> ver([FromQuery] bool incluirBorrados = false) {
             return this.verEspacioTrabajosUseCase.ver(getLoggedUserId(), incluirBorrados);
         }
     }

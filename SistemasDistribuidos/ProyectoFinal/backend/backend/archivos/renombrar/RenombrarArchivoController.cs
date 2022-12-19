@@ -16,8 +16,8 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public Archivo renombrar(RenombrarArchivoRequest request) {
-            return this.renombrarArchivoUseCase.renombrar(request, getLoggedUserId());
+        public async Task<Archivo> renombrar(RenombrarArchivoRequest request) {
+            return await this.renombrarArchivoUseCase.renombrar(request, getLoggedUserId());
         }
     }
 }

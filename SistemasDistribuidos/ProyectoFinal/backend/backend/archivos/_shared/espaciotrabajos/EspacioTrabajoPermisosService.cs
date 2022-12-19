@@ -6,14 +6,14 @@
             this.espacioTrabajoRepositorio = espacioTrabajoRepositorio;
         }
 
-        public bool puedeLeer(Guid espacioTrabajoId, Guid usuarioId) {
-            EspacioTrabajo espacioTrabajo = this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
+        public async Task<bool> puedeLeer(Guid espacioTrabajoId, Guid usuarioId) {
+            EspacioTrabajo espacioTrabajo = await this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
 
             return espacioTrabajo != null && espacioTrabajo.usuarioId.Equals(usuarioId);
         }
-
-        public bool puedeEscribir(Guid espacioTrabajoId, Guid usuarioId) {
-            EspacioTrabajo espacioTrabajo = this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
+         
+        public async Task<bool> puedeEscribir(Guid espacioTrabajoId, Guid usuarioId) {
+            EspacioTrabajo espacioTrabajo = await this.espacioTrabajoRepositorio.findById(espacioTrabajoId);
 
             return espacioTrabajo != null && espacioTrabajo.usuarioId.Equals(usuarioId);
         }

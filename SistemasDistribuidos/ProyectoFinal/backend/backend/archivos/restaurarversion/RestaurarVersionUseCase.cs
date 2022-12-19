@@ -16,10 +16,10 @@ namespace backend.archivos {
             this.blobRepository = blobRepository;
         }
 
-        public VersionArchivoBlob restaurar(RestaurarVersionRequest request, Guid usuarioId) {
+        public async Task<VersionArchivoBlob> restaurar(RestaurarVersionRequest request, Guid usuarioId) {
             Archivo archivo = this.archivosRepository.findById(request.archivoId, false);
             this.ensureArchivoExistsAndHasPermissions(archivo, usuarioId);
-            Blob blobARestaurar = this.blobRepository.findByBlobId(request.blobIdRestaurar);
+            Blob blobARestaurar = await this.blobRepository.findByBlobId(request.blobIdRestaurar);
             this.ensureBlobExistsAndBelongsToArchivo(blobARestaurar, request.archivoId);
 
             archivo.nombre = blobARestaurar.nombre;
@@ -40,11 +40,11 @@ namespace backend.archivos {
             }
         }
 
-        private void ensureArchivoExistsAndHasPermissions(Archivo archivo, Guid usuarioId) {
+        private async void ensureArchivoExistsAndHasPermissions(Archivo archivo, Guid usuarioId) {
             if (archivo == null) {
                 throw new ResourceNotFound("No se encuentra el archivo");
             }
-            if (!this.espacioTrabajoPermisosService.puedeEscribir(archivo.espacioTrabajoId, usuarioId)) {
+            if (!await this.espacioTrabajoPermisosService.puedeEscribir(archivo.espacioTrabajoId, usuarioId)) {
                 throw new NotTheOwner("No tienes permisos");
             }
         }

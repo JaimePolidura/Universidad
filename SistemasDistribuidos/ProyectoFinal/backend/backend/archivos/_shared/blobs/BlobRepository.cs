@@ -2,11 +2,11 @@
     public interface BlobRepository {
         void save(Blob blob);
 
-        Blob findByBlobId(Guid blobId);
+        Task<Blob> findByBlobId(Guid blobId);
 
-        List<Blob> findByArchivoId(Guid archivoId);
+        Task<List<Blob>> findByArchivoId(Guid archivoId);
 
-        Blob findByArchivoIdAndLastVersion(Guid archivoId);
+        Task<Blob> findByArchivoIdAndLastVersion(Guid archivoId);
 
         void deleteByArchivoIdAndMoreThanFechaCreacion(Guid archivoId, DateTime creationDate);
     }

@@ -13,8 +13,8 @@ namespace backend.usuarios.login {
         }
 
         [HttpPost]
-        public LoginResponse login(LoginRequest request) {
-            return this.loginUseCase.login(request); ;
+        public async Task<LoginResponse> login(LoginRequest request) {
+            return await this.loginUseCase.login(request); ;
         }
     }
 }

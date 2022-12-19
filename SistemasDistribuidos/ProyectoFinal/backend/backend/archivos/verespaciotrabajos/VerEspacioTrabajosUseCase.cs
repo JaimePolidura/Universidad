@@ -6,8 +6,8 @@
             this.espacioTrabajoRepositorio = espacioTrabajoRepositorio;
         }
 
-        public List<EspacioTrabajo> ver(Guid usuarioId, bool incluirBorrados) {
-            return this.espacioTrabajoRepositorio.findByUsuarioId(usuarioId, incluirBorrados);
+        public async Task<List<EspacioTrabajo>> ver(Guid usuarioId, bool incluirBorrados) {
+            return await this.espacioTrabajoRepositorio.findByUsuarioId(usuarioId, incluirBorrados);
         }
     }
 }

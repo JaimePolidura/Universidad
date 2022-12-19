@@ -2,8 +2,8 @@
     public interface UsuariosRepository {
         void save(Usuario usuario);
 
-        Usuario findById(Guid usuarioId);
-
-        Usuario findByNombreAndClaves(string nombre, string claves);
+        Task<Usuario> findById(Guid usuarioId);
+          
+        Task<Usuario> findByNombreAndClaves(string nombre, string claves);
     }
 }

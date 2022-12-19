@@ -60,9 +60,9 @@ namespace backend.archivos {
                 throw new ResourceNotFound("No se ha encontrado el archivo de trabajo para crear la carpeta");
             }
         }
-
-        private void ensureOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
-            if (this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId) == false) {
+        
+        private async void ensureOwnsEspacioTrabajo(Guid espacioTrabajoId, Guid usuarioId) {
+            if (!await this.espacioTrabajoPermisosService.puedeEscribir(espacioTrabajoId, usuarioId) ) {
                 throw new NotTheOwner("Ese espacio de trabajo no existe / No tienes permisos");
             }
         }

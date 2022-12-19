@@ -15,14 +15,14 @@ namespace backend.archivos {
             this.blobRepository = blobRepository;
         }
           
-        public Blob descargar(Guid archivoId, Guid usuarioId, Guid blobId, bool ultimaVersion = true) {
+        public async Task<Blob> descargar(Guid archivoId, Guid usuarioId, Guid blobId, bool ultimaVersion = true) {
             this.ensureArchivoExistsAndOwnsArchivo(archivoId, usuarioId);
 
             if (ultimaVersion) {
-                return this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
+                return await this.blobRepository.findByArchivoIdAndLastVersion(archivoId);
             }
 
-            Blob blob = this.blobRepository.findByBlobId(blobId);
+            Blob blob = await this.blobRepository.findByBlobId(blobId);
             this.ensureBlobExistsAndBelongsToArchivo(blob, archivoId);
             
             return blob;
@@ -37,7 +37,7 @@ namespace backend.archivos {
             }
         }
 
-        private void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {
+        private async void ensureArchivoExistsAndOwnsArchivo(Guid archivoId, Guid usuarioId) {
             Archivo archivo = this.archivosRepository.findById(archivoId, false);
             if (archivo == null) {
                 throw new ResourceNotFound("Archivo no encontrado");
@@ -45,7 +45,7 @@ namespace backend.archivos {
             if(archivo.esCarpeta) {
                 throw new IllegalState("No se pueden descargar carpetas");
             }
-            if (!this.espacioTrabajoPermisosService.puedeLeer(archivo.espacioTrabajoId, usuarioId)) {
+            if (!await this.espacioTrabajoPermisosService.puedeLeer(archivo.espacioTrabajoId, usuarioId)) {
                 throw new NotTheOwner("Este espacio trabajo no te corresponde");
             }
         }
