@@ -3,6 +3,7 @@ using backend.archivos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using backend._shared;
+using backend.archivos._comun.archivos;
 
 namespace backend.archivos {
     [ApiController]
@@ -16,7 +17,7 @@ namespace backend.archivos {
         }
 
         [HttpGet]
-        public async Task<List<Archivo>> Get([FromQuery] Guid archivoPadreId, [FromQuery] Guid espacioTrabajoId, [FromQuery] bool incluirBorrados = false) {
+        public async Task<List<ArchivoResponse>> Get([FromQuery] Guid archivoPadreId, [FromQuery] Guid espacioTrabajoId, [FromQuery] bool incluirBorrados = false) {
             return await this.verArchivosUseCase.verArchivos(archivoPadreId, espacioTrabajoId, getLoggedUserId(), incluirBorrados);
         }
     }

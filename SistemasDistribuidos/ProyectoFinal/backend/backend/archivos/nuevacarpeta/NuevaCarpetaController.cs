@@ -1,4 +1,5 @@
 ﻿using backend._shared;
+using backend.archivos._comun.archivos;
 using backend.archivos.nuevacarpeta;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public async Task<Archivo> nuevaCarpeta(NuevaCarpetaRequest request) {
+        public async Task<ArchivoResponse> nuevaCarpeta(NuevaCarpetaRequest request) {
             return await this.nuevaCarpetaUsecase.nuevacarpeta(request, getLoggedUserId());
         }
     }

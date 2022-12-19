@@ -1,4 +1,5 @@
 ﻿using backend._shared;
+using backend.archivos._comun.archivos;
 using backend.archivos.reemplazararchivo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public async Task<Archivo> reemplazar([FromForm] ReemplazarArchivoRequest request) {
+        public async Task<ArchivoResponse> reemplazar([FromForm] ReemplazarArchivoRequest request) {
             return await this.reemplazarArchivoUseCase.reemplazar(request, getLoggedUserId());
         }
     }

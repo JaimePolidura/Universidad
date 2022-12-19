@@ -23,9 +23,6 @@ namespace backend.archivos {
             Blob blobARestaurar = await this.blobRepository.findByBlobId(request.blobIdRestaurar);
             this.ensureBlobExistsAndBelongsToArchivo(blobARestaurar, request.archivoId);
 
-            archivo.nombre = blobARestaurar.nombre;
-            archivo.formato = blobARestaurar.formato;
-
             this.blobRepository.deleteByArchivoIdAndMoreThanFechaCreacion(archivo.archivoId, blobARestaurar.fechaCreacion);
 
             return new VersionArchivoBlob(request.blobIdRestaurar, archivo.archivoId, blobARestaurar.fechaCreacion, 

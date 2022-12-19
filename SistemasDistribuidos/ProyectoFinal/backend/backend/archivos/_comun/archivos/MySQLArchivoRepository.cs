@@ -12,8 +12,8 @@ namespace backend.archivos._shared.archivos {
         public void save(Archivo archivo) {
             this.mySQLService.sendCommand($"DELETE FROM archivos WHERE archivoId = '{archivo.archivoId}'");
             this.mySQLService.sendCommand($"INSERT INTO archivos (archivoId, espacioTrabajoId, borrado, fechaCreacion, fechaBorrado, usuarioIdBorrado, " +
-                $"archivoPadreId, esCarpeta, nombre, formato) VALUES ('{archivo.archivoId}', '{archivo.espacioTrabajoId}', {archivo.borrado}, '{mySQLService.dateTimeToMySQLFormat(archivo.fechaCreacion)}', '{mySQLService.dateTimeToMySQLFormat(archivo.fechaBorrado)}', " +
-                $"'{archivo.usuarioIdBorrado}', '{archivo.archivoPadreId}', {archivo.esCarpeta}, '{archivo.nombre}', '{archivo.formato}')");
+                $"archivoPadreId, esCarpeta, nombreCarpeta) VALUES ('{archivo.archivoId}', '{archivo.espacioTrabajoId}', {archivo.borrado}, '{mySQLService.dateTimeToMySQLFormat(archivo.fechaCreacion)}', '{mySQLService.dateTimeToMySQLFormat(archivo.fechaBorrado)}', " +
+                $"'{archivo.usuarioIdBorrado}', '{archivo.archivoPadreId}', {archivo.esCarpeta}, '{archivo.nombreCarpeta}')");
         }
 
         public Task<Archivo> findById(Guid archivoId, bool incluirBorrados) {
@@ -47,8 +47,7 @@ namespace backend.archivos._shared.archivos {
                 r.GetGuid("usuarioIdBorrado"),
                 r.GetGuid("archivoPadreId"),
                 r.GetBoolean("esCarpeta"),
-                r.GetString("nombre"),
-                r.GetString("formato"));
+                r.GetString("nombreCarpeta"));
         }
 
         private DateTime? parseDateTime(string raw) {

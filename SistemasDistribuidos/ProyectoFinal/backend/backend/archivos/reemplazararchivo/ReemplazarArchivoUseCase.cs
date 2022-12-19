@@ -7,20 +7,23 @@ using backend.archivos._shared.espaciotrabajos;
 namespace backend.archivos.reemplazararchivo {
     public class ReemplazarArchivoUseCase {
         private readonly EspacioTrabajoPermisosService espacioTrabajoPermisosService;
+        private readonly ArchivoResponseCreator archivoResponseCreator;
         private readonly ArchivosRepository archivosRepository;
         private readonly BlobRepository blobRepository;
         private readonly ArchivoFinder archivoFinder;
 
         public ReemplazarArchivoUseCase(EspacioTrabajoPermisosService espacioTrabajoPermisosService, ArchivosRepository archivosRepository, 
-            BlobRepository blobRepository, ArchivoFinder archivoFinder) {
-           this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
-           this.archivosRepository = archivosRepository;
-           this.blobRepository = blobRepository;
-           this.archivoFinder = archivoFinder;
+            BlobRepository blobRepository, ArchivoFinder archivoFinder, ArchivoResponseCreator archivoResponseCreator) {
+            this.espacioTrabajoPermisosService = espacioTrabajoPermisosService;
+            this.archivosRepository = archivosRepository;
+            this.blobRepository = blobRepository;
+            this.archivoFinder = archivoFinder;
+            this.archivoResponseCreator = archivoResponseCreator;
         }
 
-        public async Task<Archivo> reemplazar(ReemplazarArchivoRequest request, Guid usuarioId) {
+        public async Task<ArchivoResponse> reemplazar(ReemplazarArchivoRequest request, Guid usuarioId) {
             Archivo archivo = await this.archivoFinder.findByIdOrThrow(request.archivoId);
+            this.ensureNotCarpeta(archivo);
             this.espacioTrabajoPermisosService.puedeEsciribirOrThrow(archivo.espacioTrabajoId, usuarioId);
 
             Blob blobNuevoArchivo = new Blob(
@@ -32,13 +35,15 @@ namespace backend.archivos.reemplazararchivo {
                 nombre: request.blob.FileName,
                 formato: request.blob.ContentType);
 
-            archivo.nombre = request.blob.FileName;
-            archivo.formato = request.blob.ContentType;
-
             this.archivosRepository.save(archivo);
             this.blobRepository.save(blobNuevoArchivo);
             
-            return archivo;
+            return await this.archivoResponseCreator.createFromArchivo(archivo);
+        }
+
+        private void ensureNotCarpeta(Archivo archivo) {
+            if(archivo.esCarpeta)
+                throw new IllegalState("No tiene que ser de tipo carpeta");
         }
     }
 }

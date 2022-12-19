@@ -1,4 +1,5 @@
 ﻿using backend._shared;
+using backend.archivos._comun.archivos;
 using backend.archivos.subirarchivo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +17,8 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public Archivo subirNuevoArchivo([FromForm] SubirNuevoArchivoRequest request) {
-            return this.subirNuevoArchivoUseCase.subirNuevoArchivo(request, getLoggedUserId());
+        public async Task<ArchivoResponse> subirNuevoArchivo([FromForm] SubirNuevoArchivoRequest request) {
+            return await this.subirNuevoArchivoUseCase.subirNuevoArchivo(request, getLoggedUserId());
         }
     }
 }

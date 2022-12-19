@@ -48,6 +48,7 @@ builder.Services.AddSingleton<BorrarArchivoUseCase>();
 builder.Services.AddSingleton<VerVersionesUseCase>();
 builder.Services.AddSingleton<RestaurarVersionUseCase>();
 builder.Services.AddSingleton<ArchivoFinder>();
+builder.Services.AddSingleton<ArchivoResponseCreator>();
 
 builder.Services.AddCors(cors => cors.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod()));
 builder.Services.AddEndpointsApiExplorer();

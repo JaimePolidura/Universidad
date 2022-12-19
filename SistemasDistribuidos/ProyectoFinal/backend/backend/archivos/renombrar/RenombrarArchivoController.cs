@@ -1,4 +1,5 @@
 ﻿using backend._shared;
+using backend.archivos._comun.archivos;
 using backend.archivos.renombrar;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace backend.archivos {
         }
 
         [HttpPost]
-        public async Task<Archivo> renombrar(RenombrarArchivoRequest request) {
+        public async Task<ArchivoResponse> renombrar(RenombrarArchivoRequest request) {
             return await this.renombrarArchivoUseCase.renombrar(request, getLoggedUserId());
         }
     }
