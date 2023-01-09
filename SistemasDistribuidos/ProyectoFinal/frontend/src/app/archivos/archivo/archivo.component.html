@@ -1,3 +1,5 @@
+<input type="file" style="display: none" (change)="onArchivoModificarSeleccionado($event)" #inputFile />
+
 <div class="archivo-content">
   <div class="col1 pointer" (click)="archivoClickeado()">
     <img [src]="imageSrc()" height="50px" width="50px"/>
@@ -16,14 +18,19 @@
             <li class="dropdown-option"><i class="fa-solid fa-pen-to-square"></i> Renombrar</li>
           </div>
 
-          <div *ngIf="!archivo?.esCarpeta"
-               (click)="abrirMOdalVerVersiones()">
-            <li class="dropdown-option"><i class="fa-solid fa-code-branch"></i> Ver versiones</li>
-          </div>
-
           <div (click)="descargar()"
                *ngIf="!archivo?.esCarpeta">
             <li class="dropdown-option"><i class="fa-solid fa-download"></i> Descargar</li>
+          </div>
+
+          <div *ngIf="!archivo?.esCarpeta"
+               (click)="inputFile.click()">
+            <li class="dropdown-option"><i class="fa-solid fa-code-commit"></i> Modificar</li>
+          </div>
+
+          <div *ngIf="!archivo?.esCarpeta"
+               (click)="abrirModalVerModificaciones()">
+            <li class="dropdown-option"><i class="fa-solid fa-code-branch"></i> Modificaciones</li>
           </div><br>
 
           <div (click)="abrirModalConfirmacionBorrar()">

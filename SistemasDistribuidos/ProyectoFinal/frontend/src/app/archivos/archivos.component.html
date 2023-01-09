@@ -22,6 +22,7 @@
 
   <div class="archivos">
     <app-archivo *ngFor="let archivo of archivos"
+                 (archivoReemplazarSeleccionado)="reemplazarArchivo($event.nuevoArchivo, $event.archivo)"
                  (archivoMarcadoParaBorrar)="onArchivoMarcadoParaBorrar($event)"
                  (nuevoNombreSeleccionado)="onNuevoNombreSeleccionado($event)"
                  (carpetaSeleccionada)="onCarpetaSeleccionada($event)"

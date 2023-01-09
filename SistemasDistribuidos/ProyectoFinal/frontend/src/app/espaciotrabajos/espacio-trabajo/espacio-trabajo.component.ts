@@ -6,15 +6,10 @@ import {EspacioTrabajo} from "../../../api/espaciotrabajo/espacio-trabajo";
   templateUrl: './espacio-trabajo.component.html',
   styleUrls: ['./espacio-trabajo.component.css']
 })
-export class EspacioTrabajoComponent implements OnInit {
+export class EspacioTrabajoComponent {
   @Input() espacioTrabajo: EspacioTrabajo | undefined;
 
   @Output() espacioTrabajoSeleccionado = new EventEmitter<EspacioTrabajo>();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   onEspacioTrabajoSeleccionad() {
     this.espacioTrabajoSeleccionado.next(this.espacioTrabajo as EspacioTrabajo);

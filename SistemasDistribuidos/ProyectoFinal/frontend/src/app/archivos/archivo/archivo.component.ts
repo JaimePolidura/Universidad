@@ -20,6 +20,7 @@ export class ArchivoComponent {
   @Output() carpetaSeleccionada = new EventEmitter<Archivo>();
   @Output() nuevoNombreSeleccionado = new EventEmitter<NuevoNombreSeleccionado>();
   @Output() archivoMarcadoParaBorrar = new EventEmitter<Archivo>();
+  @Output() archivoReemplazarSeleccionado = new EventEmitter<ArchivoReemplazarSeleccionado>();
 
   constructor(
     private blobService: BlobsService,
@@ -63,7 +64,11 @@ export class ArchivoComponent {
     });
   }
 
-  abrirMOdalVerVersiones() {
+  onArchivoModificarSeleccionado($event: Event) {
+    this.archivoReemplazarSeleccionado.next({archivo: this.archivo as Archivo, nuevoArchivo: (<any> $event.target).files[0]});
+  }
+
+  abrirModalVerModificaciones() {
     const modal = this.modalService.open(ArchivoVersionesModalComponent, { windowClass: 'midmodal' });
     modal.componentInstance.archivo = this.archivo as Archivo;
   }
@@ -71,5 +76,10 @@ export class ArchivoComponent {
 
 export interface NuevoNombreSeleccionado {
   nuevoNombre: string;
+  archivo: Archivo;
+}
+
+export interface ArchivoReemplazarSeleccionado {
+  nuevoArchivo: File;
   archivo: Archivo;
 }
