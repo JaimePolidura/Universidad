@@ -1,0 +1,32 @@
+@startuml
+
+class es.jaime.controlador.Mundo
+es.jaime.controlador.Mundo : es.jaime.controlador.Habitacion
+es.jaime.controlador.Mundo : RenderizadorHabitacion
+es.jaime.controlador.Mundo : void empezar()
+
+es.jaime.controlador.Mundo --> es.jaime.controlador.Habitacion
+
+class es.jaime.controlador.Habitacion
+es.jaime.controlador.Habitacion : es.jaime.modelo.Baldosa[][] baldosas
+es.jaime.controlador.Habitacion : es.jaime.modelo.Gato[] gatos
+es.jaime.controlador.Habitacion : int tamaño
+es.jaime.controlador.Habitacion : ensuciar()
+es.jaime.controlador.Habitacion : moverGatos()
+
+es.jaime.controlador.Habitacion --> es.jaime.modelo.Gato
+es.jaime.controlador.Habitacion --> es.jaime.modelo.Baldosa
+
+class es.jaime.modelo.Baldosa
+es.jaime.modelo.Baldosa : Sueciedad suciedad
+es.jaime.modelo.Baldosa --> es.jaime.modelo.Suciedad
+
+class es.jaime.modelo.Suciedad
+es.jaime.modelo.Suciedad : void nivel
+es.jaime.modelo.Suciedad : void ensuciar()
+
+class es.jaime.modelo.Gato
+es.jaime.modelo.Gato : es.jaime.modelo.Posicion posicion
+es.jaime.modelo.Gato : boolean vaAEnsuciar()
+
+@enduml
