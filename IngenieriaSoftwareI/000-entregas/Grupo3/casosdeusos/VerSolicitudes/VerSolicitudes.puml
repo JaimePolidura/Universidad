@@ -1,0 +1,14 @@
+@startuml VerSolicitudes
+    [*] --> VerSolicitudes
+note on link
+ <b> El trabajador/gestion desea ver el estado de sus solicitudes para crear viajes.
+end note
+
+State VerSolicitudes{
+    State ListarSolicitudes as "ListarSolicitudes"
+    ListarSolicitudes --> [*]  
+}
+note on link
+ <b> El trabajador/gestion ve las solicitudes de viaje
+end note
+@enduml

@@ -1,0 +1,50 @@
+@startuml
+left to right direction
+
+actor "Gestion" as G
+actor "Trabajador" as P
+actor "Tiempo" as T
+
+rectangle Sistema {
+    package Solicitudes {
+      usecase "Crear solicitud" as S_P_S
+      usecase "Ver solicitudes" as S_V_S
+      usecase "Gestionar solicitud" as S_V_AC
+   }
+    package Viajes {
+      package Justificantes {
+           usecase "Ver justificantes" as VJ_GP_VJ
+           usecase "Enviar justificante" as VJ_P_EJ
+           usecase "Validar justificante" as VJ_G_VJ
+      }
+      usecase "Crear viaje" as V_G_CV
+      usecase "Ver viajes" as V_G_VV
+    }
+    package Estadisticos {
+      usecase "Crear informes" as V_G_CI
+      usecase "Calcular estadisticas" as V_T_CCN
+      usecase "Generar notificaciones" as V_T_CGC
+    }
+}
+
+
+G --> S_V_AC
+G --> S_V_S
+
+P --> S_V_S
+P --> S_P_S
+P --> VJ_GP_VJ
+P --> VJ_P_EJ 
+P --> V_G_VV
+
+T --> V_T_CCN
+T --> V_T_CGC
+
+
+
+V_G_VV <-- G
+V_G_CV <-- G
+VJ_G_VJ <-- G
+V_G_CI <-- G
+VJ_GP_VJ <-- G
+@enduml
